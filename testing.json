@@ -1,0 +1,1634 @@
+{
+    "_dispatchInstances": {
+        "_debugHookTypes": null,
+        "_debugID": 5311,
+        "_debugIsCurrentlyTiming": false,
+        "_debugNeedsRemount": false,
+        "_debugOwner": {
+            "_debugHookTypes": null,
+            "_debugID": 5307,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83819,
+            "alternate": null,
+            "child": [FiberNode
+            ],
+            "childExpirationTime": 0,
+            "dependencies": [Object
+            ],
+            "effectTag": 1,
+            "elementType": [Object
+            ],
+            "expirationTime": 0,
+            "firstEffect": [Circular
+            ],
+            "index": 0,
+            "key": null,
+            "lastEffect": [Circular
+            ],
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": null,
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": null,
+            "tag": 9,
+            "treeBaseDuration": 0,
+            "type": [Object
+            ],
+            "updateQueue": null
+        },
+        "_debugSource": {
+            "columnNumber": 15,
+            "fileName": "D:\\Balakrish\\Projects\\mini-project\\MobileApp\\node_modules\\react-native\\Libraries\\Text\\Text.js",
+            "lineNumber": 159
+        },
+        "actualDuration": 3,
+        "actualStartTime": 83820,
+        "alternate": null,
+        "child": {
+            "_debugHookTypes": null,
+            "_debugID": 5313,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": null,
+            "_debugSource": null,
+            "actualDuration": 1,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": null,
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 0,
+            "elementType": null,
+            "expirationTime": 0,
+            "firstEffect": null,
+            "index": 0,
+            "key": null,
+            "lastEffect": null,
+            "memoizedProps": "",
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": "",
+            "ref": null,
+            "return": [Circular
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": 347,
+            "tag": 6,
+            "treeBaseDuration": 0,
+            "type": null,
+            "updateQueue": null
+        },
+        "childExpirationTime": 0,
+        "dependencies": null,
+        "effectTag": 128,
+        "elementType": "RCTText",
+        "expirationTime": 0,
+        "firstEffect": null,
+        "index": 0,
+        "key": null,
+        "lastEffect": null,
+        "memoizedProps": {
+            "accessible": true,
+            "allowFontScaling": false,
+            "children": [Array
+            ],
+            "collapsable": false,
+            "ellipsizeMode": "tail",
+            "forwardedRef": [Function anonymous
+            ],
+            "onGestureHandlerEvent": [Function anonymous
+            ],
+            "onGestureHandlerStateChange": [Function anonymous
+            ],
+            "style": [Array
+            ]
+        },
+        "memoizedState": null,
+        "mode": 8,
+        "nextEffect": null,
+        "pendingProps": {
+            "accessible": true,
+            "allowFontScaling": false,
+            "children": [Array
+            ],
+            "collapsable": false,
+            "ellipsizeMode": "tail",
+            "forwardedRef": [Function anonymous
+            ],
+            "onGestureHandlerEvent": [Function anonymous
+            ],
+            "onGestureHandlerStateChange": [Function anonymous
+            ],
+            "style": [Array
+            ]
+        },
+        "ref": [Function anonymous
+        ],
+        "return": {
+            "_debugHookTypes": null,
+            "_debugID": 5309,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": [Circular
+            ],
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 0,
+            "elementType": [Object
+            ],
+            "expirationTime": 0,
+            "firstEffect": [Circular
+            ],
+            "index": 0,
+            "key": null,
+            "lastEffect": [Circular
+            ],
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": null,
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": null,
+            "tag": 10,
+            "treeBaseDuration": 0,
+            "type": [Object
+            ],
+            "updateQueue": null
+        },
+        "selfBaseDuration": 0,
+        "sibling": null,
+        "stateNode": {
+            "_children": [Array
+            ],
+            "_internalFiberInstanceHandleDEV": [Circular
+            ],
+            "_nativeTag": 349,
+            "viewConfig": [Object
+            ]
+        },
+        "tag": 5,
+        "treeBaseDuration": 0,
+        "type": "RCTText",
+        "updateQueue": null
+    },
+    "_dispatchListeners": [Function anonymous
+    ],
+    "_targetInst": {
+        "_debugHookTypes": null,
+        "_debugID": 5311,
+        "_debugIsCurrentlyTiming": false,
+        "_debugNeedsRemount": false,
+        "_debugOwner": {
+            "_debugHookTypes": null,
+            "_debugID": 5307,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83819,
+            "alternate": null,
+            "child": [FiberNode
+            ],
+            "childExpirationTime": 0,
+            "dependencies": [Object
+            ],
+            "effectTag": 1,
+            "elementType": [Object
+            ],
+            "expirationTime": 0,
+            "firstEffect": [Circular
+            ],
+            "index": 0,
+            "key": null,
+            "lastEffect": [Circular
+            ],
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": null,
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": null,
+            "tag": 9,
+            "treeBaseDuration": 0,
+            "type": [Object
+            ],
+            "updateQueue": null
+        },
+        "_debugSource": {
+            "columnNumber": 15,
+            "fileName": "D:\\Balakrish\\Projects\\mini-project\\MobileApp\\node_modules\\react-native\\Libraries\\Text\\Text.js",
+            "lineNumber": 159
+        },
+        "actualDuration": 3,
+        "actualStartTime": 83820,
+        "alternate": null,
+        "child": {
+            "_debugHookTypes": null,
+            "_debugID": 5313,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": null,
+            "_debugSource": null,
+            "actualDuration": 1,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": null,
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 0,
+            "elementType": null,
+            "expirationTime": 0,
+            "firstEffect": null,
+            "index": 0,
+            "key": null,
+            "lastEffect": null,
+            "memoizedProps": "",
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": "",
+            "ref": null,
+            "return": [Circular
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": 347,
+            "tag": 6,
+            "treeBaseDuration": 0,
+            "type": null,
+            "updateQueue": null
+        },
+        "childExpirationTime": 0,
+        "dependencies": null,
+        "effectTag": 128,
+        "elementType": "RCTText",
+        "expirationTime": 0,
+        "firstEffect": null,
+        "index": 0,
+        "key": null,
+        "lastEffect": null,
+        "memoizedProps": {
+            "accessible": true,
+            "allowFontScaling": false,
+            "children": [Array
+            ],
+            "collapsable": false,
+            "ellipsizeMode": "tail",
+            "forwardedRef": [Function anonymous
+            ],
+            "onGestureHandlerEvent": [Function anonymous
+            ],
+            "onGestureHandlerStateChange": [Function anonymous
+            ],
+            "style": [Array
+            ]
+        },
+        "memoizedState": null,
+        "mode": 8,
+        "nextEffect": null,
+        "pendingProps": {
+            "accessible": true,
+            "allowFontScaling": false,
+            "children": [Array
+            ],
+            "collapsable": false,
+            "ellipsizeMode": "tail",
+            "forwardedRef": [Function anonymous
+            ],
+            "onGestureHandlerEvent": [Function anonymous
+            ],
+            "onGestureHandlerStateChange": [Function anonymous
+            ],
+            "style": [Array
+            ]
+        },
+        "ref": [Function anonymous
+        ],
+        "return": {
+            "_debugHookTypes": null,
+            "_debugID": 5309,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": [Circular
+            ],
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 0,
+            "elementType": [Object
+            ],
+            "expirationTime": 0,
+            "firstEffect": [Circular
+            ],
+            "index": 0,
+            "key": null,
+            "lastEffect": [Circular
+            ],
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": null,
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": null,
+            "tag": 10,
+            "treeBaseDuration": 0,
+            "type": [Object
+            ],
+            "updateQueue": null
+        },
+        "selfBaseDuration": 0,
+        "sibling": null,
+        "stateNode": {
+            "_children": [Array
+            ],
+            "_internalFiberInstanceHandleDEV": [Circular
+            ],
+            "_nativeTag": 349,
+            "viewConfig": [Object
+            ]
+        },
+        "tag": 5,
+        "treeBaseDuration": 0,
+        "type": "RCTText",
+        "updateQueue": null
+    },
+    "bubbles": undefined,
+    "cancelable": undefined,
+    "currentTarget": {
+        "_children": [
+            347
+        ],
+        "_internalFiberInstanceHandleDEV": {
+            "_debugHookTypes": null,
+            "_debugID": 5311,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": [FiberNode
+            ],
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 128,
+            "elementType": "RCTText",
+            "expirationTime": 0,
+            "firstEffect": null,
+            "index": 0,
+            "key": null,
+            "lastEffect": null,
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": [Function anonymous
+            ],
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": [Circular
+            ],
+            "tag": 5,
+            "treeBaseDuration": 0,
+            "type": "RCTText",
+            "updateQueue": null
+        },
+        "_nativeTag": 349,
+        "viewConfig": {
+            "directEventTypes": [Object
+            ],
+            "uiViewClassName": "RCTText",
+            "validAttributes": [Object
+            ]
+        }
+    },
+    "defaultPrevented": undefined,
+    "dispatchConfig": {
+        "registrationName": "onGestureHandlerStateChange"
+    },
+    "eventPhase": undefined,
+    "isDefaultPrevented": [Function functionThatReturnsFalse
+    ],
+    "isPropagationStopped": [Function functionThatReturnsFalse
+    ],
+    "isTrusted": undefined,
+    "nativeEvent": {
+        "absoluteX": 138.5454559326172,
+        "absoluteY": 190.18182373046875,
+        "handlerTag": 14,
+        "numberOfPointers": 1,
+        "oldState": 0,
+        "state": 2,
+        "x": 40.85685729980469,
+        "y": 37.81283187866211
+    },
+    "target": {
+        "_children": [
+            347
+        ],
+        "_internalFiberInstanceHandleDEV": {
+            "_debugHookTypes": null,
+            "_debugID": 5311,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": [FiberNode
+            ],
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 128,
+            "elementType": "RCTText",
+            "expirationTime": 0,
+            "firstEffect": null,
+            "index": 0,
+            "key": null,
+            "lastEffect": null,
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": [Function anonymous
+            ],
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": [Circular
+            ],
+            "tag": 5,
+            "treeBaseDuration": 0,
+            "type": "RCTText",
+            "updateQueue": null
+        },
+        "_nativeTag": 349,
+        "viewConfig": {
+            "directEventTypes": [Object
+            ],
+            "uiViewClassName": "RCTText",
+            "validAttributes": [Object
+            ]
+        }
+    },
+    "timeStamp": 1603810343162,
+    "type": undefined
+}
+    [Tue Oct 27 2020 20: 22: 24.273
+]  LOG      {
+    "_dispatchInstances": {
+        "_debugHookTypes": null,
+        "_debugID": 5311,
+        "_debugIsCurrentlyTiming": false,
+        "_debugNeedsRemount": false,
+        "_debugOwner": {
+            "_debugHookTypes": null,
+            "_debugID": 5307,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83819,
+            "alternate": null,
+            "child": [FiberNode
+            ],
+            "childExpirationTime": 0,
+            "dependencies": [Object
+            ],
+            "effectTag": 1,
+            "elementType": [Object
+            ],
+            "expirationTime": 0,
+            "firstEffect": [Circular
+            ],
+            "index": 0,
+            "key": null,
+            "lastEffect": [Circular
+            ],
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": null,
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": null,
+            "tag": 9,
+            "treeBaseDuration": 0,
+            "type": [Object
+            ],
+            "updateQueue": null
+        },
+        "_debugSource": {
+            "columnNumber": 15,
+            "fileName": "D:\\Balakrish\\Projects\\mini-project\\MobileApp\\node_modules\\react-native\\Libraries\\Text\\Text.js",
+            "lineNumber": 159
+        },
+        "actualDuration": 3,
+        "actualStartTime": 83820,
+        "alternate": null,
+        "child": {
+            "_debugHookTypes": null,
+            "_debugID": 5313,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": null,
+            "_debugSource": null,
+            "actualDuration": 1,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": null,
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 0,
+            "elementType": null,
+            "expirationTime": 0,
+            "firstEffect": null,
+            "index": 0,
+            "key": null,
+            "lastEffect": null,
+            "memoizedProps": "",
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": "",
+            "ref": null,
+            "return": [Circular
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": 347,
+            "tag": 6,
+            "treeBaseDuration": 0,
+            "type": null,
+            "updateQueue": null
+        },
+        "childExpirationTime": 0,
+        "dependencies": null,
+        "effectTag": 128,
+        "elementType": "RCTText",
+        "expirationTime": 0,
+        "firstEffect": null,
+        "index": 0,
+        "key": null,
+        "lastEffect": null,
+        "memoizedProps": {
+            "accessible": true,
+            "allowFontScaling": false,
+            "children": [Array
+            ],
+            "collapsable": false,
+            "ellipsizeMode": "tail",
+            "forwardedRef": [Function anonymous
+            ],
+            "onGestureHandlerEvent": [Function anonymous
+            ],
+            "onGestureHandlerStateChange": [Function anonymous
+            ],
+            "style": [Array
+            ]
+        },
+        "memoizedState": null,
+        "mode": 8,
+        "nextEffect": null,
+        "pendingProps": {
+            "accessible": true,
+            "allowFontScaling": false,
+            "children": [Array
+            ],
+            "collapsable": false,
+            "ellipsizeMode": "tail",
+            "forwardedRef": [Function anonymous
+            ],
+            "onGestureHandlerEvent": [Function anonymous
+            ],
+            "onGestureHandlerStateChange": [Function anonymous
+            ],
+            "style": [Array
+            ]
+        },
+        "ref": [Function anonymous
+        ],
+        "return": {
+            "_debugHookTypes": null,
+            "_debugID": 5309,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": [Circular
+            ],
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 0,
+            "elementType": [Object
+            ],
+            "expirationTime": 0,
+            "firstEffect": [Circular
+            ],
+            "index": 0,
+            "key": null,
+            "lastEffect": [Circular
+            ],
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": null,
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": null,
+            "tag": 10,
+            "treeBaseDuration": 0,
+            "type": [Object
+            ],
+            "updateQueue": null
+        },
+        "selfBaseDuration": 0,
+        "sibling": null,
+        "stateNode": {
+            "_children": [Array
+            ],
+            "_internalFiberInstanceHandleDEV": [Circular
+            ],
+            "_nativeTag": 349,
+            "viewConfig": [Object
+            ]
+        },
+        "tag": 5,
+        "treeBaseDuration": 0,
+        "type": "RCTText",
+        "updateQueue": null
+    },
+    "_dispatchListeners": [Function anonymous
+    ],
+    "_targetInst": {
+        "_debugHookTypes": null,
+        "_debugID": 5311,
+        "_debugIsCurrentlyTiming": false,
+        "_debugNeedsRemount": false,
+        "_debugOwner": {
+            "_debugHookTypes": null,
+            "_debugID": 5307,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83819,
+            "alternate": null,
+            "child": [FiberNode
+            ],
+            "childExpirationTime": 0,
+            "dependencies": [Object
+            ],
+            "effectTag": 1,
+            "elementType": [Object
+            ],
+            "expirationTime": 0,
+            "firstEffect": [Circular
+            ],
+            "index": 0,
+            "key": null,
+            "lastEffect": [Circular
+            ],
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": null,
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": null,
+            "tag": 9,
+            "treeBaseDuration": 0,
+            "type": [Object
+            ],
+            "updateQueue": null
+        },
+        "_debugSource": {
+            "columnNumber": 15,
+            "fileName": "D:\\Balakrish\\Projects\\mini-project\\MobileApp\\node_modules\\react-native\\Libraries\\Text\\Text.js",
+            "lineNumber": 159
+        },
+        "actualDuration": 3,
+        "actualStartTime": 83820,
+        "alternate": null,
+        "child": {
+            "_debugHookTypes": null,
+            "_debugID": 5313,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": null,
+            "_debugSource": null,
+            "actualDuration": 1,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": null,
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 0,
+            "elementType": null,
+            "expirationTime": 0,
+            "firstEffect": null,
+            "index": 0,
+            "key": null,
+            "lastEffect": null,
+            "memoizedProps": "",
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": "",
+            "ref": null,
+            "return": [Circular
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": 347,
+            "tag": 6,
+            "treeBaseDuration": 0,
+            "type": null,
+            "updateQueue": null
+        },
+        "childExpirationTime": 0,
+        "dependencies": null,
+        "effectTag": 128,
+        "elementType": "RCTText",
+        "expirationTime": 0,
+        "firstEffect": null,
+        "index": 0,
+        "key": null,
+        "lastEffect": null,
+        "memoizedProps": {
+            "accessible": true,
+            "allowFontScaling": false,
+            "children": [Array
+            ],
+            "collapsable": false,
+            "ellipsizeMode": "tail",
+            "forwardedRef": [Function anonymous
+            ],
+            "onGestureHandlerEvent": [Function anonymous
+            ],
+            "onGestureHandlerStateChange": [Function anonymous
+            ],
+            "style": [Array
+            ]
+        },
+        "memoizedState": null,
+        "mode": 8,
+        "nextEffect": null,
+        "pendingProps": {
+            "accessible": true,
+            "allowFontScaling": false,
+            "children": [Array
+            ],
+            "collapsable": false,
+            "ellipsizeMode": "tail",
+            "forwardedRef": [Function anonymous
+            ],
+            "onGestureHandlerEvent": [Function anonymous
+            ],
+            "onGestureHandlerStateChange": [Function anonymous
+            ],
+            "style": [Array
+            ]
+        },
+        "ref": [Function anonymous
+        ],
+        "return": {
+            "_debugHookTypes": null,
+            "_debugID": 5309,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": [Circular
+            ],
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 0,
+            "elementType": [Object
+            ],
+            "expirationTime": 0,
+            "firstEffect": [Circular
+            ],
+            "index": 0,
+            "key": null,
+            "lastEffect": [Circular
+            ],
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": null,
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": null,
+            "tag": 10,
+            "treeBaseDuration": 0,
+            "type": [Object
+            ],
+            "updateQueue": null
+        },
+        "selfBaseDuration": 0,
+        "sibling": null,
+        "stateNode": {
+            "_children": [Array
+            ],
+            "_internalFiberInstanceHandleDEV": [Circular
+            ],
+            "_nativeTag": 349,
+            "viewConfig": [Object
+            ]
+        },
+        "tag": 5,
+        "treeBaseDuration": 0,
+        "type": "RCTText",
+        "updateQueue": null
+    },
+    "bubbles": undefined,
+    "cancelable": undefined,
+    "currentTarget": {
+        "_children": [
+            347
+        ],
+        "_internalFiberInstanceHandleDEV": {
+            "_debugHookTypes": null,
+            "_debugID": 5311,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": [FiberNode
+            ],
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 128,
+            "elementType": "RCTText",
+            "expirationTime": 0,
+            "firstEffect": null,
+            "index": 0,
+            "key": null,
+            "lastEffect": null,
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": [Function anonymous
+            ],
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": [Circular
+            ],
+            "tag": 5,
+            "treeBaseDuration": 0,
+            "type": "RCTText",
+            "updateQueue": null
+        },
+        "_nativeTag": 349,
+        "viewConfig": {
+            "directEventTypes": [Object
+            ],
+            "uiViewClassName": "RCTText",
+            "validAttributes": [Object
+            ]
+        }
+    },
+    "defaultPrevented": undefined,
+    "dispatchConfig": {
+        "registrationName": "onGestureHandlerStateChange"
+    },
+    "eventPhase": undefined,
+    "isDefaultPrevented": [Function functionThatReturnsFalse
+    ],
+    "isPropagationStopped": [Function functionThatReturnsFalse
+    ],
+    "isTrusted": undefined,
+    "nativeEvent": {
+        "absoluteX": 138.5454559326172,
+        "absoluteY": 190.18182373046875,
+        "handlerTag": 14,
+        "numberOfPointers": 1,
+        "oldState": 2,
+        "state": 4,
+        "x": 40.85685729980469,
+        "y": 37.81283187866211
+    },
+    "target": {
+        "_children": [
+            347
+        ],
+        "_internalFiberInstanceHandleDEV": {
+            "_debugHookTypes": null,
+            "_debugID": 5311,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": [FiberNode
+            ],
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 128,
+            "elementType": "RCTText",
+            "expirationTime": 0,
+            "firstEffect": null,
+            "index": 0,
+            "key": null,
+            "lastEffect": null,
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": [Function anonymous
+            ],
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": [Circular
+            ],
+            "tag": 5,
+            "treeBaseDuration": 0,
+            "type": "RCTText",
+            "updateQueue": null
+        },
+        "_nativeTag": 349,
+        "viewConfig": {
+            "directEventTypes": [Object
+            ],
+            "uiViewClassName": "RCTText",
+            "validAttributes": [Object
+            ]
+        }
+    },
+    "timeStamp": 1603810343297,
+    "type": undefined
+}
+    [Tue Oct 27 2020 20: 22: 24.276
+]  LOG      {
+    "_dispatchInstances": {
+        "_debugHookTypes": null,
+        "_debugID": 5311,
+        "_debugIsCurrentlyTiming": false,
+        "_debugNeedsRemount": false,
+        "_debugOwner": {
+            "_debugHookTypes": null,
+            "_debugID": 5307,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83819,
+            "alternate": null,
+            "child": [FiberNode
+            ],
+            "childExpirationTime": 0,
+            "dependencies": [Object
+            ],
+            "effectTag": 1,
+            "elementType": [Object
+            ],
+            "expirationTime": 0,
+            "firstEffect": [Circular
+            ],
+            "index": 0,
+            "key": null,
+            "lastEffect": [Circular
+            ],
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": null,
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": null,
+            "tag": 9,
+            "treeBaseDuration": 0,
+            "type": [Object
+            ],
+            "updateQueue": null
+        },
+        "_debugSource": {
+            "columnNumber": 15,
+            "fileName": "D:\\Balakrish\\Projects\\mini-project\\MobileApp\\node_modules\\react-native\\Libraries\\Text\\Text.js",
+            "lineNumber": 159
+        },
+        "actualDuration": 3,
+        "actualStartTime": 83820,
+        "alternate": null,
+        "child": {
+            "_debugHookTypes": null,
+            "_debugID": 5313,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": null,
+            "_debugSource": null,
+            "actualDuration": 1,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": null,
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 0,
+            "elementType": null,
+            "expirationTime": 0,
+            "firstEffect": null,
+            "index": 0,
+            "key": null,
+            "lastEffect": null,
+            "memoizedProps": "",
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": "",
+            "ref": null,
+            "return": [Circular
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": 347,
+            "tag": 6,
+            "treeBaseDuration": 0,
+            "type": null,
+            "updateQueue": null
+        },
+        "childExpirationTime": 0,
+        "dependencies": null,
+        "effectTag": 128,
+        "elementType": "RCTText",
+        "expirationTime": 0,
+        "firstEffect": null,
+        "index": 0,
+        "key": null,
+        "lastEffect": null,
+        "memoizedProps": {
+            "accessible": true,
+            "allowFontScaling": false,
+            "children": [Array
+            ],
+            "collapsable": false,
+            "ellipsizeMode": "tail",
+            "forwardedRef": [Function anonymous
+            ],
+            "onGestureHandlerEvent": [Function anonymous
+            ],
+            "onGestureHandlerStateChange": [Function anonymous
+            ],
+            "style": [Array
+            ]
+        },
+        "memoizedState": null,
+        "mode": 8,
+        "nextEffect": null,
+        "pendingProps": {
+            "accessible": true,
+            "allowFontScaling": false,
+            "children": [Array
+            ],
+            "collapsable": false,
+            "ellipsizeMode": "tail",
+            "forwardedRef": [Function anonymous
+            ],
+            "onGestureHandlerEvent": [Function anonymous
+            ],
+            "onGestureHandlerStateChange": [Function anonymous
+            ],
+            "style": [Array
+            ]
+        },
+        "ref": [Function anonymous
+        ],
+        "return": {
+            "_debugHookTypes": null,
+            "_debugID": 5309,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": [Circular
+            ],
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 0,
+            "elementType": [Object
+            ],
+            "expirationTime": 0,
+            "firstEffect": [Circular
+            ],
+            "index": 0,
+            "key": null,
+            "lastEffect": [Circular
+            ],
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": null,
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": null,
+            "tag": 10,
+            "treeBaseDuration": 0,
+            "type": [Object
+            ],
+            "updateQueue": null
+        },
+        "selfBaseDuration": 0,
+        "sibling": null,
+        "stateNode": {
+            "_children": [Array
+            ],
+            "_internalFiberInstanceHandleDEV": [Circular
+            ],
+            "_nativeTag": 349,
+            "viewConfig": [Object
+            ]
+        },
+        "tag": 5,
+        "treeBaseDuration": 0,
+        "type": "RCTText",
+        "updateQueue": null
+    },
+    "_dispatchListeners": [Function anonymous
+    ],
+    "_targetInst": {
+        "_debugHookTypes": null,
+        "_debugID": 5311,
+        "_debugIsCurrentlyTiming": false,
+        "_debugNeedsRemount": false,
+        "_debugOwner": {
+            "_debugHookTypes": null,
+            "_debugID": 5307,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83819,
+            "alternate": null,
+            "child": [FiberNode
+            ],
+            "childExpirationTime": 0,
+            "dependencies": [Object
+            ],
+            "effectTag": 1,
+            "elementType": [Object
+            ],
+            "expirationTime": 0,
+            "firstEffect": [Circular
+            ],
+            "index": 0,
+            "key": null,
+            "lastEffect": [Circular
+            ],
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": null,
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": null,
+            "tag": 9,
+            "treeBaseDuration": 0,
+            "type": [Object
+            ],
+            "updateQueue": null
+        },
+        "_debugSource": {
+            "columnNumber": 15,
+            "fileName": "D:\\Balakrish\\Projects\\mini-project\\MobileApp\\node_modules\\react-native\\Libraries\\Text\\Text.js",
+            "lineNumber": 159
+        },
+        "actualDuration": 3,
+        "actualStartTime": 83820,
+        "alternate": null,
+        "child": {
+            "_debugHookTypes": null,
+            "_debugID": 5313,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": null,
+            "_debugSource": null,
+            "actualDuration": 1,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": null,
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 0,
+            "elementType": null,
+            "expirationTime": 0,
+            "firstEffect": null,
+            "index": 0,
+            "key": null,
+            "lastEffect": null,
+            "memoizedProps": "",
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": "",
+            "ref": null,
+            "return": [Circular
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": 347,
+            "tag": 6,
+            "treeBaseDuration": 0,
+            "type": null,
+            "updateQueue": null
+        },
+        "childExpirationTime": 0,
+        "dependencies": null,
+        "effectTag": 128,
+        "elementType": "RCTText",
+        "expirationTime": 0,
+        "firstEffect": null,
+        "index": 0,
+        "key": null,
+        "lastEffect": null,
+        "memoizedProps": {
+            "accessible": true,
+            "allowFontScaling": false,
+            "children": [Array
+            ],
+            "collapsable": false,
+            "ellipsizeMode": "tail",
+            "forwardedRef": [Function anonymous
+            ],
+            "onGestureHandlerEvent": [Function anonymous
+            ],
+            "onGestureHandlerStateChange": [Function anonymous
+            ],
+            "style": [Array
+            ]
+        },
+        "memoizedState": null,
+        "mode": 8,
+        "nextEffect": null,
+        "pendingProps": {
+            "accessible": true,
+            "allowFontScaling": false,
+            "children": [Array
+            ],
+            "collapsable": false,
+            "ellipsizeMode": "tail",
+            "forwardedRef": [Function anonymous
+            ],
+            "onGestureHandlerEvent": [Function anonymous
+            ],
+            "onGestureHandlerStateChange": [Function anonymous
+            ],
+            "style": [Array
+            ]
+        },
+        "ref": [Function anonymous
+        ],
+        "return": {
+            "_debugHookTypes": null,
+            "_debugID": 5309,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": [Circular
+            ],
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 0,
+            "elementType": [Object
+            ],
+            "expirationTime": 0,
+            "firstEffect": [Circular
+            ],
+            "index": 0,
+            "key": null,
+            "lastEffect": [Circular
+            ],
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": null,
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": null,
+            "tag": 10,
+            "treeBaseDuration": 0,
+            "type": [Object
+            ],
+            "updateQueue": null
+        },
+        "selfBaseDuration": 0,
+        "sibling": null,
+        "stateNode": {
+            "_children": [Array
+            ],
+            "_internalFiberInstanceHandleDEV": [Circular
+            ],
+            "_nativeTag": 349,
+            "viewConfig": [Object
+            ]
+        },
+        "tag": 5,
+        "treeBaseDuration": 0,
+        "type": "RCTText",
+        "updateQueue": null
+    },
+    "bubbles": undefined,
+    "cancelable": undefined,
+    "currentTarget": {
+        "_children": [
+            347
+        ],
+        "_internalFiberInstanceHandleDEV": {
+            "_debugHookTypes": null,
+            "_debugID": 5311,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": [FiberNode
+            ],
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 128,
+            "elementType": "RCTText",
+            "expirationTime": 0,
+            "firstEffect": null,
+            "index": 0,
+            "key": null,
+            "lastEffect": null,
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": [Function anonymous
+            ],
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": [Circular
+            ],
+            "tag": 5,
+            "treeBaseDuration": 0,
+            "type": "RCTText",
+            "updateQueue": null
+        },
+        "_nativeTag": 349,
+        "viewConfig": {
+            "directEventTypes": [Object
+            ],
+            "uiViewClassName": "RCTText",
+            "validAttributes": [Object
+            ]
+        }
+    },
+    "defaultPrevented": undefined,
+    "dispatchConfig": {
+        "registrationName": "onGestureHandlerStateChange"
+    },
+    "eventPhase": undefined,
+    "isDefaultPrevented": [Function functionThatReturnsFalse
+    ],
+    "isPropagationStopped": [Function functionThatReturnsFalse
+    ],
+    "isTrusted": undefined,
+    "nativeEvent": {
+        "absoluteX": 138.5454559326172,
+        "absoluteY": 190.18182373046875,
+        "handlerTag": 14,
+        "numberOfPointers": 1,
+        "oldState": 4,
+        "state": 5,
+        "x": 40.85685729980469,
+        "y": 37.81283187866211
+    },
+    "target": {
+        "_children": [
+            347
+        ],
+        "_internalFiberInstanceHandleDEV": {
+            "_debugHookTypes": null,
+            "_debugID": 5311,
+            "_debugIsCurrentlyTiming": false,
+            "_debugNeedsRemount": false,
+            "_debugOwner": [FiberNode
+            ],
+            "_debugSource": [Object
+            ],
+            "actualDuration": 3,
+            "actualStartTime": 83820,
+            "alternate": null,
+            "child": [FiberNode
+            ],
+            "childExpirationTime": 0,
+            "dependencies": null,
+            "effectTag": 128,
+            "elementType": "RCTText",
+            "expirationTime": 0,
+            "firstEffect": null,
+            "index": 0,
+            "key": null,
+            "lastEffect": null,
+            "memoizedProps": [Object
+            ],
+            "memoizedState": null,
+            "mode": 8,
+            "nextEffect": null,
+            "pendingProps": [Object
+            ],
+            "ref": [Function anonymous
+            ],
+            "return": [FiberNode
+            ],
+            "selfBaseDuration": 0,
+            "sibling": null,
+            "stateNode": [Circular
+            ],
+            "tag": 5,
+            "treeBaseDuration": 0,
+            "type": "RCTText",
+            "updateQueue": null
+        },
+        "_nativeTag": 349,
+        "viewConfig": {
+            "directEventTypes": [Object
+            ],
+            "uiViewClassName": "RCTText",
+            "validAttributes": [Object
+            ]
+        }
+    },
+    "timeStamp": 1603810343340,
+    "type": undefined
+}
