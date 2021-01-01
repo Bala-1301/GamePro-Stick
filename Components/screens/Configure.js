@@ -1,37 +1,44 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Text, View, StyleSheet, ScrollView} from 'react-native';
 import {Button, RadioButton} from 'react-native-paper';
-import {connect} from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 import database from '@react-native-firebase/database';
 import Feather from 'react-native-vector-icons/Feather';
 
-import {availableButtons, defaultButtons} from '../ButtonData';
+import {availableButtons, defaultButtons} from '../reusable/ButtonData';
 import Configurations from './Configurations';
-import {mapDispatchToProps, mapStateToProps} from '../reusable/mapProps';
 import {normalize} from '../reusable/Responsive';
-import {AuthContext} from '../../Context';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {Header} from 'react-native-elements';
+import {getDimensions} from '../reusable/ScreenDimensions';
+import {AuthContext} from '../reusable/contexts/AuthContext';
+import {addGame, setCurrentGame, updateGame} from '../redux/actions';
+
+const {SCREEN_WIDTH} = getDimensions();
 
 function Configure(props) {
+  const currentGame = useSelector((state) => state.currentGame);
+  const games = useSelector((state) => state.games);
+
+  const dispatch = useDispatch();
+
   let item = null;
   if (props.route !== undefined) {
     item = props.route.params.item;
   } else {
-    item = props.currentGame;
+    item = currentGame;
   }
   const [_new, setNew] = useState(true);
-  const [movement, setMovement] = useState('Analog');
   const [buttons, setButtons] = useState(defaultButtons);
   const [disabled, setDisabled] = useState(false);
 
   const {user} = useContext(AuthContext);
 
   useEffect(() => {
-    props.games.map((game) => {
+    games.map((game) => {
       if (game.id === item.id) {
         setNew(false);
         setButtons(game.keys);
-        setMovement(game.movement);
       }
     });
   }, []);
@@ -50,61 +57,64 @@ function Configure(props) {
     let game = {
       id: item.id,
       name: item.name,
-      movement: movement,
+      // movement: movement,
       image: props.route !== undefined ? item.background_image : item.image,
       keys: {
         ...buttons,
       },
     };
-    if (_new) props.addGame(game);
-    else props.updateGame(game);
+    if (_new) dispatch(addGame(game));
+    else dispatch(updateGame(game));
     if (props.route !== undefined) props.navigation.popToTop();
     else {
-      props.setCurrentGame(game);
+      dispatch(setCurrentGame(game));
       props.onSave();
     }
     if (user) {
       await database()
         .ref(`/users/${user.uid}`)
-        .update({games: [game, ...props.games]});
+        .update({games: [game, ...games]});
     }
   };
 
   return (
     <>
-      <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
+      <Header
+        centerComponent={{
+          text: 'Configure Game',
+          style: {color: '#fff', fontSize: normalize(20), fontWeight: 'bold'},
+        }}
+        containerStyle={{backgroundColor: '#000'}}
+        leftComponent={
+          props.route !== undefined ? (
+            <TouchableOpacity
+              style={{padding: 10, paddingLeft: 0}}
+              onPress={() => props.navigation.goBack()}>
+              <Feather
+                name="chevron-left"
+                color="#fff"
+                size={SCREEN_WIDTH * 0.07}
+              />
+            </TouchableOpacity>
+          ) : null
+        }
+      />
+      <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         <Text style={styles.title}>{item.name}</Text>
-        <View style={styles.movement}>
-          <Text style={styles.configName}>Movement </Text>
-          <View style={{flexDirection: 'row'}}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <RadioButton
-                value="Analog"
-                status={movement === 'Analog' ? 'checked' : 'unchecked'}
-                onPress={() => setMovement('Analog')}
-              />
-              <Text style={{fontSize: normalize(15)}}>Analog </Text>
-            </View>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <RadioButton
-                value="Arrows"
-                status={movement === 'Arrows' ? 'checked' : 'unchecked'}
-                onPress={() => setMovement('Arrows')}
-              />
-              <Text style={{fontSize: normalize(15)}}>Arrows </Text>
-            </View>
-          </View>
+        <View style={{marginTop: 20}}>
+          <Configurations
+            buttons={buttons}
+            onChange={handleChange}
+            availableButtons={availableButtons}
+            haveMargin={props.route !== undefined}
+          />
         </View>
-        <Configurations
-          buttons={buttons}
-          onChange={handleChange}
-          availableButtons={availableButtons}
-        />
       </ScrollView>
       <Button
         mode="contained"
         onPress={handleSave}
         style={styles.saveButton}
+        color="red"
         disabled={disabled}>
         Save{_new ? ' & Add' : null}
       </Button>
@@ -115,13 +125,16 @@ function Configure(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
   },
   title: {
     textAlign: 'center',
     fontSize: normalize(19),
     fontWeight: 'bold',
     margin: normalize(10),
+    marginLeft: normalize(25),
+    marginRight: normalize(25),
+    color: '#fff',
   },
   movement: {
     flexDirection: 'row',
@@ -141,4 +154,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Configure);
+export default Configure;

@@ -3,8 +3,10 @@ import {View, StyleSheet, Dimensions} from 'react-native';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
 import Proptypes from 'prop-types';
 import Animated from 'react-native-reanimated';
+import {getDimensions} from '../../reusable/ScreenDimensions';
 const {cond, eq, call, Value, event, interpolate, onChange, block} = Animated;
-let {width, height} = Dimensions.get('window');
+
+const {SCREEN_HEIGHT, SCREEN_WIDTH} = getDimensions();
 
 class MouseMove extends React.Component {
   constructor(props) {
@@ -101,7 +103,7 @@ class MouseMove extends React.Component {
     );
   }
 }
-const radius = width > height ? height : width;
+const radius = SCREEN_WIDTH > SCREEN_HEIGHT ? SCREEN_HEIGHT : SCREEN_WIDTH;
 
 const styles = StyleSheet.create({
   container: {

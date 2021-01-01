@@ -1,21 +1,25 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-// import {Button} from 'react-native-elements';
 import {Button} from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-community/google-signin';
 
-import {AuthContext} from '../../Context';
 import {normalize} from '../reusable/Responsive';
+import {Header} from 'react-native-elements';
+import {AuthContext} from '../reusable/contexts/AuthContext';
 
 function Profile(props) {
   const {user, toggleFirstTime} = useContext(AuthContext);
 
   return (
     <>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Profile</Text>
-      </View>
+      <Header
+        containerStyle={{backgroundColor: '#fff'}}
+        centerComponent={{
+          text: 'Profile',
+          style: {fontSize: normalize(22), color: '#000', fontWeight: 'bold'},
+        }}
+      />
       <View style={styles.container}>
         {user === null ? (
           <Button

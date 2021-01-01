@@ -1,33 +1,32 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  ImageBackground,
-  StatusBar,
-} from 'react-native';
+import {View, Text, StyleSheet, ImageBackground, StatusBar} from 'react-native';
 import Orientation from 'react-native-orientation';
 import {Immersive} from 'react-native-immersive';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {Switch, TouchableOpacity} from 'react-native-gesture-handler';
-import {Input, normalize} from 'react-native-elements';
+import {Input, normalize, Overlay} from 'react-native-elements';
 import Proptypes from 'prop-types';
 import * as Animatable from 'react-native-animatable';
+import {showMessage} from 'react-native-flash-message';
 
 import Arrows from './Arrows';
 import GameButtons from './GameButtons';
 import MovementGesture from './MovementGesture';
-import {mapStateToProps} from '../../reusable/mapProps';
-import {ClientContext} from '../../../Context';
 import Extras from './Extras';
 import MouseMove from './MouseMove';
 import {buttonSound} from '../../reusable/ButtonSound';
 import Configure from '../Configure';
+import Gyro from './Gyro';
+import {checkSameDay, getTime} from '../../helper_functions/checkSameDay';
+import {Button} from 'react-native-paper';
+import {getDimensions} from '../../reusable/ScreenDimensions';
+import {ClientContext} from '../../reusable/contexts/ClientContext';
 
-const width = Dimensions.get('screen').width;
-const height = Dimensions.get('screen').height;
+const {SCREEN_HEIGHT, SCREEN_WIDTH} = getDimensions();
+
+const lesser = SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_WIDTH : SCREEN_HEIGHT;
+const greater = SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_HEIGHT : SCREEN_WIDTH;
 
 class Joystick extends React.Component {
   movesRef = React.createRef();
@@ -43,20 +42,37 @@ class Joystick extends React.Component {
     this.state = {
       mounted: false,
       cheatCode: '',
-      switch: this.props.currentGame.movement === 'Arrows',
+      switch: false,
       showConfig: false,
+      gyro: false,
+      time: null,
+      showReminder: false,
     };
     this.keys = this.props.currentGame.keys;
   }
 
   componentDidMount() {
     Immersive.addImmersiveListener(this.restoreImmersion);
-    this.setState({mounted: true});
+    this.setState({mounted: true, time: Date.now()});
     const {client} = this.context;
     this.client = client;
+    const {playTime} = this.props;
+    if (!playTime.perDayData.reminded && playTime.reminderLimit !== Infinity) {
+      const reminder = setInterval(() => {
+        if (
+          playTime.reminderLimit <=
+          playTime.perDayData.time + (this.state.time - Date.now())
+        ) {
+          this.setState({showReminder: true});
+          this.props.setReminded();
+          clearInterval(reminder);
+        }
+      }, 30 * 1000);
+    }
   }
 
   componentDidUpdate() {
+    this.keys = this.props.currentGame.keys;
     Orientation.lockToLandscape();
     Immersive.on();
   }
@@ -68,11 +84,22 @@ class Joystick extends React.Component {
 
   componentWillUnmount() {
     Orientation.lockToPortrait();
-    // Orientation.unlockAllOrientations();
-    Immersive.off();
     Immersive.setImmersive(false);
+    Immersive.off();
     Immersive.removeImmersiveListener();
     clearInterval(this.interval);
+
+    if (!checkSameDay(this.props.playTime.perDayData.date, new Date())) {
+      this.props.addPlayTime();
+    }
+    this.props.addPerDayPlayTime({
+      gameName: this.props.currentGame.name,
+      time: Date.now() - this.state.time,
+    });
+    console.log({
+      gameName: this.props.currentGame.name,
+      time: Date.now() - this.state.time,
+    });
   }
 
   handleToggle = (key) => {
@@ -142,7 +169,7 @@ class Joystick extends React.Component {
             </View>
             <View style={styles.textInput}>
               <Input
-                placeholder="Cheat code(s)"
+                placeholder="Type here..."
                 style={{
                   textAlign: 'center',
                   backgroundColor: 'white',
@@ -191,14 +218,15 @@ class Joystick extends React.Component {
               </View>
             )}
             <View style={styles.switch}>
-              <Text>Analog</Text>
               <Switch
                 value={this.state.switch}
                 onChange={() =>
                   this.setState((prev) => ({switch: !prev.switch}))
                 }
               />
-              <Text>Arrows</Text>
+              <Text>
+                {this.state.switch === 'Arrows' ? 'Analog' : 'Arrows'}
+              </Text>
             </View>
             {/* Center  */}
             <View style={styles.centerButtons}>
@@ -230,6 +258,13 @@ class Joystick extends React.Component {
               <GameButtons onToggle={this.handleToggle} keys={this.keys} />
             </View>
 
+            <View style={[styles.switch, styles.gyro]}>
+              <Switch
+                value={this.state.gyro}
+                onChange={() => this.setState((prev) => ({gyro: !prev.gyro}))}
+              />
+              <Text>Gyroscope</Text>
+            </View>
             {/* Extras */}
 
             <Extras keys={this.keys} onToggle={this.handleToggle} />
@@ -243,7 +278,7 @@ class Joystick extends React.Component {
               <MouseMove onMouseMove={this.handleMouseMove} />
             </View>
           </View>
-
+          <Gyro gyro={this.state.gyro} mouseMove={this.handleMouseMove} />
           {/* Edit Config */}
         </ImageBackground>
         {this.state.showConfig ? (
@@ -257,7 +292,9 @@ class Joystick extends React.Component {
               bottom: 0,
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: '#fff',
+              backgroundColor: '#000',
+              borderRightWidth: 1,
+              borderRightColor: '#fff',
             }}>
             <Configure
               currentGame={this.props.currentGame}
@@ -266,7 +303,11 @@ class Joystick extends React.Component {
             <View style={styles.settingsOpen}>
               <TouchableOpacity
                 onPress={() => this.setState({showConfig: false})}>
-                <Ionicons name="chevron-back-outline" size={normalize(30)} />
+                <Ionicons
+                  name="chevron-back-outline"
+                  size={normalize(30)}
+                  color="#fff"
+                />
               </TouchableOpacity>
             </View>
           </Animatable.View>
@@ -274,17 +315,32 @@ class Joystick extends React.Component {
           <View style={styles.settingsClosed}>
             <TouchableOpacity
               onPressIn={() => this.setState({showConfig: true})}>
-              <Ionicons name="chevron-forward-outline" size={normalize(30)} />
+              <Ionicons
+                name="chevron-forward-outline"
+                size={normalize(30)}
+                color="#fff"
+              />
             </TouchableOpacity>
           </View>
         )}
+
+        <Overlay
+          isVisible={this.state.showReminder}
+          onBackdropPress={() => this.setState({showReminder: false})}
+          overlayStyle={styles.overlay}>
+          <Ionicons name="alarm-outline" size={lesser * 0.2} />
+          <Text style={styles.reminderTitle}>Reminder</Text>
+          <Text style={styles.reminderText}>
+            You have spent {getTime(this.props.playTime.reminderLimit)} playing.
+          </Text>
+          <Button onPress={() => this.setState({showReminder: false})}>
+            Close
+          </Button>
+        </Overlay>
       </>
     );
   }
 }
-
-const lesser = height > width ? width : height;
-const greater = height > width ? height : width;
 
 const styles = StyleSheet.create({
   header: {
@@ -296,7 +352,9 @@ const styles = StyleSheet.create({
   },
   rButton: {
     justifyContent: 'center',
-    borderWidth: 1,
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    borderColor: '#fff',
     borderBottomStartRadius: lesser * 0.2,
     backgroundColor: '#000',
     width: lesser / 1.5,
@@ -306,7 +364,9 @@ const styles = StyleSheet.create({
   lButton: {
     paddingTop: 5,
     paddingBottom: 10,
-    borderWidth: 1,
+    borderBottomWidth: 1,
+    borderRightWidth: 1,
+    borderColor: '#fff',
     borderBottomEndRadius: lesser * 0.2,
     backgroundColor: '#000',
     width: lesser / 1.5,
@@ -315,7 +375,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: lesser * 0.009,
-    width: width * 0.55,
+    width: SCREEN_WIDTH * 0.55,
   },
   text: {
     fontSize: lesser * 0.06,
@@ -325,28 +385,28 @@ const styles = StyleSheet.create({
   left: {
     position: 'absolute',
     left: greater * 0.05,
-    bottom: greater * 0.1,
+    bottom: greater * 0.125,
   },
   arrow: {
     marginLeft: greater * 0.012,
-    bottom: greater * 0.09,
+    bottom: greater * 0.1,
   },
   buttons: {
     position: 'absolute',
-    right: height * 0.05,
-    bottom: height * 0.06,
+    right: SCREEN_HEIGHT * 0.05,
+    bottom: SCREEN_HEIGHT * 0.08,
   },
 
   centerButtons: {
     flexDirection: 'row',
     position: 'absolute',
-    left: height * 0.37,
-    bottom: width * 0.45,
+    left: SCREEN_HEIGHT * 0.37,
+    bottom: SCREEN_WIDTH * 0.45,
     padding: 3,
     alignItems: 'center',
   },
   pause: {
-    marginRight: height * 0.07,
+    marginRight: SCREEN_HEIGHT * 0.07,
     alignItems: 'center',
     padding: lesser * 0.02,
     borderRadius: 30,
@@ -354,7 +414,7 @@ const styles = StyleSheet.create({
     elevation: 13,
   },
   start: {
-    marginLeft: height * 0.07,
+    marginLeft: SCREEN_HEIGHT * 0.07,
     alignItems: 'center',
     padding: lesser * 0.02,
     borderRadius: 30,
@@ -362,23 +422,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   bgImage: {
-    width: height,
-    height: width,
+    width: greater,
+    height: lesser,
   },
   mouseLeft: {
     position: 'absolute',
     left: greater * 0.24,
-    top: greater * 0.08,
+    bottom: greater * 0.08,
+    elevation: 15,
   },
   mouseRight: {
     position: 'absolute',
-    right: greater * 0.24,
-    top: greater * 0.08,
+    right: greater * 0.28,
+    bottom: greater * 0.08,
+    elevation: 15,
   },
   switch: {
     position: 'absolute',
     bottom: normalize(10),
-    left: normalize(40),
+    left: greater * 0.02,
     flexDirection: 'row',
     backgroundColor: '#fff',
     elevation: 15,
@@ -394,21 +456,68 @@ const styles = StyleSheet.create({
     top: lesser * 0.25,
     paddingTop: normalize(20),
     paddingBottom: normalize(20),
-    backgroundColor: 'white',
+    backgroundColor: '#000',
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
     elevation: 17,
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderColor: '#fff',
   },
+
   settingsOpen: {
     position: 'absolute',
     left: greater * 0.45,
     top: lesser * 0.25,
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     paddingTop: normalize(20),
     paddingBottom: normalize(20),
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderColor: '#fff',
+    marginLeft: -1,
+  },
+
+  gyro: {
+    // position: 'absolute',
+    bottom: 10,
+    left: greater * 0.83,
+  },
+  overlay: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  reminderTitle: {
+    fontSize: normalize(25),
+    fontWeight: 'bold',
+  },
+  reminderText: {
+    fontSize: normalize(17),
   },
 });
 
-export default connect(mapStateToProps)(Joystick);
+const mapStateToProps = (state) => {
+  return {
+    currentGame: state.currentGame,
+    playTime: state.playTime,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addPerDayPlayTime: (payload) => {
+      dispatch(addPerDayPlayTime(payload));
+    },
+    addPlayTime: () => {
+      dispatch(addPlayTime());
+    },
+    setReminded: () => {
+      dispatch(setReminded());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Joystick);

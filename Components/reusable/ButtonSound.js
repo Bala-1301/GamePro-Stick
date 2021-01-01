@@ -9,12 +9,12 @@ const sound = new Sound(
   (error) => console.log(error),
 );
 
-const {joystickPreference} = store.getState();
+const {joystickFeedback} = store.getState();
 
 export const buttonSound = () => {
-  if (joystickPreference.feedback === 'Sound') {
+  if (joystickFeedback.feedback === 'Sound') {
     sound.setCurrentTime(0);
     sound.setVolume(0.1);
     sound.play();
-  } else if (joystickPreference.feedback === 'Vibrate') Vibration.vibrate();
+  } else if (joystickFeedback.feedback === 'Vibrate') Vibration.vibrate();
 };

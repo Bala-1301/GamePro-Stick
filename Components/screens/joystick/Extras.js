@@ -1,12 +1,14 @@
 import React from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {buttonSound} from '../../reusable/ButtonSound';
-import {mapStateToProps} from '../../reusable/mapProps';
+import {getDimensions} from '../../reusable/ScreenDimensions';
+
+const {SCREEN_HEIGHT, SCREEN_WIDTH} = getDimensions();
 
 function Extras(props) {
-  const {keys} = props.currentGame;
+  const {keys} = useSelector((state) => state.currentGame);
   return (
     <>
       <View style={styles.upperExtrasView}>
@@ -81,9 +83,7 @@ function Extras(props) {
   );
 }
 
-const {height, width} = Dimensions.get('window');
-
-const rad = height > width ? width : height;
+const rad = SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_WIDTH : SCREEN_HEIGHT;
 
 const styles = StyleSheet.create({
   extraButton: {
@@ -104,25 +104,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   extraButtonUp: {
-    marginLeft: rad * 0.08,
-    marginRight: rad * 0.08,
+    marginLeft: rad * 0.06,
+    marginRight: rad * 0.06,
   },
   extraButtonDown: {
-    marginLeft: rad * 0.18,
-    marginRight: rad * 0.18,
+    marginLeft: rad * 0.14,
+    marginRight: rad * 0.14,
   },
   upperExtrasView: {
     position: 'absolute',
     bottom: rad * 0.25,
-    left: rad * 0.71,
+    left: rad * 0.75,
     flexDirection: 'row',
   },
   lowerExtrasView: {
     position: 'absolute',
     bottom: rad * 0.05,
-    left: rad * 0.5,
+    left: rad * 0.58,
     flexDirection: 'row',
   },
 });
 
-export default connect(mapStateToProps)(Extras);
+export default Extras;

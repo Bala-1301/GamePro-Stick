@@ -1,5 +1,3 @@
-import {setCurrentClient} from './redux/actions';
-
 const net = require('react-native-tcp');
 
 export const connectToServer = async ({
@@ -9,7 +7,6 @@ export const connectToServer = async ({
   setCurrentClient,
   removeCurrentClient,
 }) => {
-  console.log(data);
   try {
     const timeout = 3000;
     let client = net.createConnection(data.port, data.ipAddress);

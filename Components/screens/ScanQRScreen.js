@@ -1,22 +1,22 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  StatusBar,
-} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {Text, View, StyleSheet} from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import LottieView from 'lottie-react-native';
 import {normalize, Overlay} from 'react-native-elements';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {Button, TextInput} from 'react-native-paper';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {ClientContext} from '../../Context';
-import {connectToServer} from '../socket';
-import {mapDispatchToProps} from '../reusable/mapProps';
-import {useIsFocused} from '@react-navigation/native';
+import {getDimensions} from '../reusable/ScreenDimensions';
+import {ClientContext} from '../reusable/contexts/ClientContext';
+import {connectToServer} from '../helper_functions/socket';
+import {
+  addClientAddress,
+  removeCurrentClient,
+  setCurrentClient,
+} from '../redux/actions';
+
+const iconSize = normalize(100);
 
 function ScanQRScreen(props) {
   const [loading, setLoading] = useState(false);
@@ -24,15 +24,9 @@ function ScanQRScreen(props) {
   const [PCName, setPCName] = useState('');
   const [ipData, setIpData] = useState(null);
 
+  const dispatch = useDispatch();
+
   const {setClient, removeClient} = useContext(ClientContext);
-
-  const isFocused = useIsFocused();
-
-  useEffect(() => {
-    return () => {
-      StatusBar.setTranslucent(false);
-    };
-  });
 
   const onSuccess = async (e) => {
     setLoading(true);
@@ -42,8 +36,8 @@ function ScanQRScreen(props) {
       data,
       setClient,
       removeClient,
-      setCurrentClient: props.setCurrentClient,
-      removeCurrentClient: props.removeCurrentClient,
+      setCurrentClient: (client) => dispatch(setCurrentClient(client)),
+      removeCurrentClient: () => dispatch(removeCurrentClient()),
     });
     if (client) {
       setLoading(false);
@@ -55,8 +49,8 @@ function ScanQRScreen(props) {
 
   const handleSave = () => {
     if (PCName.length !== 0) {
-      props.addClientAddress({...ipData, name: PCName});
-      props.setCurrentClient({...ipData, name: PCName});
+      dispatch(addClientAddress({...ipData, name: PCName}));
+      dispatch(setCurrentClient({...ipData, name: PCName}));
       setShowOverlay(false);
       props.navigation.goBack();
     }
@@ -75,10 +69,10 @@ function ScanQRScreen(props) {
 
   return (
     <View style={styles.container}>
-      <StatusBar
+      {/* <StatusBar
         translucent={isFocused ? true : false}
         backgroundColor={isFocused ? 'transparent' : null}
-      />
+      /> */}
       {!showOverlay && (
         <QRCodeScanner
           onRead={onSuccess}
@@ -87,7 +81,7 @@ function ScanQRScreen(props) {
           topViewStyle={styles.extraView}
         />
       )}
-      <Overlay isVisible={showOverlay}>
+      <Overlay isVisible={showOverlay} overlayStyle={styles.overlay}>
         <View style={styles.overlayView}>
           <Text style={{fontSize: normalize(17), paddingBottom: normalize(10)}}>
             Enter a name for this PC
@@ -100,18 +94,47 @@ function ScanQRScreen(props) {
           <Button onPress={handleSave}>Save</Button>
         </View>
       </Overlay>
+      <View style={styles.topLeft}>
+        <MaterialIcons
+          name="keyboard-arrow-left"
+          color="#fff"
+          size={iconSize}
+        />
+      </View>
+
+      <View style={styles.topRight}>
+        <MaterialIcons
+          name="keyboard-arrow-right"
+          color="#fff"
+          size={iconSize}
+        />
+      </View>
+      <View style={styles.bottomLeft}>
+        <MaterialIcons
+          name="keyboard-arrow-left"
+          color="#fff"
+          size={iconSize}
+        />
+      </View>
+      <View style={styles.bottomRight}>
+        <MaterialIcons
+          name="keyboard-arrow-right"
+          color="#fff"
+          size={iconSize}
+        />
+      </View>
     </View>
   );
 }
 
-const {height, width} = Dimensions.get('window');
+const {SCREEN_HEIGHT} = getDimensions();
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   qr: {
-    height: height,
+    height: SCREEN_HEIGHT,
   },
   extraView: {
     height: 0,
@@ -119,8 +142,35 @@ const styles = StyleSheet.create({
   },
   overlayView: {
     justifyContent: 'center',
-    height: height / 4,
+    height: SCREEN_HEIGHT / 4,
+  },
+  overlay: {
+    backgroundColor: '#000',
+  },
+  topLeft: {
+    transform: [{rotate: '45deg'}],
+    position: 'absolute',
+    left: 0,
+    top: SCREEN_HEIGHT * 0.2,
+  },
+  topRight: {
+    transform: [{rotate: '-45deg'}],
+    position: 'absolute',
+    right: 0,
+    top: SCREEN_HEIGHT * 0.2,
+  },
+  bottomLeft: {
+    transform: [{rotate: '-45deg'}],
+    position: 'absolute',
+    left: 0,
+    bottom: SCREEN_HEIGHT * 0.2,
+  },
+  bottomRight: {
+    transform: [{rotate: '45deg'}],
+    position: 'absolute',
+    right: 0,
+    bottom: SCREEN_HEIGHT * 0.2,
   },
 });
 
-export default connect(null, mapDispatchToProps)(ScanQRScreen);
+export default ScanQRScreen;

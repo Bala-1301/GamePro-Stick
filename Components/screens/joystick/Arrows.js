@@ -4,15 +4,15 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Proptypes from 'prop-types';
 import {buttonSound} from '../../reusable/ButtonSound';
-import {connect} from 'react-redux';
-import {mapStateToProps} from '../../reusable/mapProps';
+import {getDimensions} from '../../reusable/ScreenDimensions';
+import {useSelector} from 'react-redux';
 
-const {height, width} = Dimensions.get('window');
+const {SCREEN_WIDTH, SCREEN_HEIGHT} = getDimensions();
 
-const size = height > width ? width : height;
+const size = SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_WIDTH : SCREEN_HEIGHT;
 
 function Arrows(props) {
-  const {keys} = props.currentGame;
+  const {keys} = useSelector((state) => state.currentGame);
   return (
     <View
       style={{
@@ -114,4 +114,4 @@ Arrows.propTypes = {
   keys: Proptypes.object.isRequired,
 };
 
-export default connect(mapStateToProps)(Arrows);
+export default Arrows;

@@ -5,13 +5,13 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import Proptypes from 'prop-types';
 import {normalize} from '../../reusable/Responsive';
 import {buttonSound} from '../../reusable/ButtonSound';
-import {mapStateToProps} from '../../reusable/mapProps';
-import {connect} from 'react-redux';
+import {getDimensions} from '../../reusable/ScreenDimensions';
+import {useSelector} from 'react-redux';
 
-const {width, height} = Dimensions.get('window');
+const {SCREEN_HEIGHT, SCREEN_WIDTH} = getDimensions();
 
 function GameButtons(props) {
-  const {keys} = props.currentGame;
+  const {keys} = useSelector((state) => state.currentGame);
   return (
     <View style={styles.container}>
       <View
@@ -82,7 +82,7 @@ function GameButtons(props) {
   );
 }
 
-const rad = height > width ? width : height;
+const rad = SCREEN_HEIGHT > SCREEN_WIDTH ? SCREEN_WIDTH : SCREEN_HEIGHT;
 
 const styles = StyleSheet.create({
   container: {
@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
 
 GameButtons.propTypes = {
   onToggle: Proptypes.func.isRequired,
-  keys: Proptypes.object.isRequired,
 };
 
-export default connect(mapStateToProps)(GameButtons);
+export default GameButtons;

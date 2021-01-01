@@ -1,38 +1,27 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Dimensions,
 } from 'react-native';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-} from '@react-native-community/google-signin';
-import {Button, normalize} from 'react-native-elements';
+
+import {normalize} from 'react-native-elements';
 import {TextInput} from 'react-native-paper';
-import {showMessage} from 'react-native-flash-message';
-import {connect} from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {purple_1, purple_2} from '../../reusable/colors';
-import {mapDispatchToProps, mapStateToProps} from '../../reusable/mapProps';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {AuthContext, LoadingContext} from '../../../Context';
 import TextDivider from '../../reusable/TextDivider';
 import SocialButton from '../../reusable/SocialButton';
 import {handleGoogleSignIn} from '../../reusable/socialSignIn';
-import LoadingIndicator from '../../reusable/LoadingIndicator';
-// import {ShowActivity} from '../GeneralComponents/ActivityIndicator';
-// import {login} from '../../api';
-// import {loginUser, setUserType} from '../../redux/actions';
+import {getDimensions} from '../../reusable/ScreenDimensions';
+import {AuthContext} from '../../reusable/contexts/AuthContext';
+import {LoadingContext} from '../../reusable/contexts/LoadingContext';
 
 function LoginScreen(props) {
   const [email, setEmail] = useState('');
@@ -192,7 +181,7 @@ function LoginScreen(props) {
   );
 }
 
-const {width, height} = Dimensions.get('window');
+const {SCREEN_WIDTH} = getDimensions();
 
 const styles = StyleSheet.create({
   container: {
@@ -248,7 +237,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     margin: 10,
-    width: width * 0.25,
+    width: SCREEN_WIDTH * 0.25,
     alignItems: 'center',
   },
   signUpText: {
@@ -273,4 +262,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default LoginScreen;

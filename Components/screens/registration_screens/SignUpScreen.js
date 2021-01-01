@@ -13,7 +13,6 @@ import {
 import {Button} from 'react-native-elements';
 import {TextInput} from 'react-native-paper';
 import {showMessage} from 'react-native-flash-message';
-import {connect} from 'react-redux';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import Feather from 'react-native-vector-icons/Feather';
@@ -22,13 +21,13 @@ import database from '@react-native-firebase/database';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {normalize} from '../../reusable/Responsive';
-import {AuthContext, LoadingContext} from '../../../Context';
 import {purple_1, purple_2} from '../../reusable/colors';
-import {mapDispatchToProps, mapStateToProps} from '../../reusable/mapProps';
 import TextDivider from '../../reusable/TextDivider';
 import SocialButton from '../../reusable/SocialButton';
 import {handleGoogleSignIn} from '../../reusable/socialSignIn';
 import LoadingIndicator from '../../reusable/LoadingIndicator';
+import {LoadingContext} from '../../reusable/contexts/LoadingContext';
+import {AuthContext} from '../../reusable/contexts/AuthContext';
 
 function SignUpScreen(props) {
   const [email, setEmail] = useState('');
@@ -39,7 +38,7 @@ function SignUpScreen(props) {
   const [nameError, setNameError] = useState(false);
   const [showPass, setShowPass] = useState(false);
 
-  const {showLoading, loading} = (y = useContext(LoadingContext));
+  const {showLoading, loading} = useContext(LoadingContext);
   const {toggleFirstTime} = useContext(AuthContext);
 
   const validateInput = () => {
@@ -284,4 +283,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen);
+export default SignUpScreen;

@@ -4,9 +4,10 @@ import {PanGestureHandler, State} from 'react-native-gesture-handler';
 import Proptypes from 'prop-types';
 import Animated from 'react-native-reanimated';
 import {connect} from 'react-redux';
-import {mapStateToProps} from '../../reusable/mapProps';
+import {getDimensions} from '../../reusable/ScreenDimensions';
 const {cond, eq, call, Value, event, interpolate, onChange, block} = Animated;
-let {width, height} = Dimensions.get('window');
+
+let {SCREEN_WIDTH, SCREEN_HEIGHT} = getDimensions();
 
 class MovementGesture extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class MovementGesture extends React.Component {
     this.pressedX = [];
     this.pressedY = [];
 
-    this.keys = props.currentGame;
+    this.keys = this.props.currentGame.keys;
 
     this.oldX = 0;
     this.oldY = 0;
@@ -119,8 +120,8 @@ class MovementGesture extends React.Component {
   }
 
   componentDidMount() {
-    width = Dimensions.get('window').width;
-    height = Dimensions.get('window').height;
+    SCREEN_WIDTH = Dimensions.get('window').width;
+    SCREEN_HEIGHT = Dimensions.get('window').height;
   }
 
   render() {
@@ -153,7 +154,7 @@ class MovementGesture extends React.Component {
   }
 }
 
-const radius = width > height ? height : width;
+const radius = SCREEN_WIDTH > SCREEN_HEIGHT ? SCREEN_HEIGHT : SCREEN_WIDTH;
 
 const styles = StyleSheet.create({
   container: {
@@ -180,6 +181,12 @@ const styles = StyleSheet.create({
 MovementGesture.propTypes = {
   onMoves: Proptypes.func.isRequired,
   keys: Proptypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    currentGame: state.currentGame,
+  };
 };
 
 export default connect(mapStateToProps)(MovementGesture);

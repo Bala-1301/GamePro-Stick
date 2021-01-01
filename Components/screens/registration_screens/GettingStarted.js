@@ -6,8 +6,9 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import {Button} from 'react-native-paper';
 import LottieView from 'lottie-react-native';
 import * as Animatable from 'react-native-animatable';
+import {getDimensions} from '../../reusable/ScreenDimensions';
 
-const {width, height} = Dimensions.get('window');
+const {SCREEN_WIDTH, SCREEN_HEIGHT} = getDimensions();
 
 function GettingStarted(props) {
   const _renderItem = ({item}) => (
@@ -16,10 +17,11 @@ function GettingStarted(props) {
         <Text style={styles.headerText}>{item.step}</Text>
         <Text style={styles.headerText}>{item.title}</Text>
       </View>
-      <View style={{flex: 1, alignItems: 'center', marginTop: width * 0.1}}>
+      <View
+        style={{flex: 1, alignItems: 'center', marginTop: SCREEN_WIDTH * 0.1}}>
         <LottieView
           source={item.json}
-          style={{width: width * 0.7, height: width * 0.7}}
+          style={{width: SCREEN_WIDTH * 0.7, height: SCREEN_WIDTH * 0.7}}
           autoPlay
           loop
         />

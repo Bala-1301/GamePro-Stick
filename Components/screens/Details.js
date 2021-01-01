@@ -20,13 +20,13 @@ import Feather from 'react-native-vector-icons/Feather';
 import ImageViewer from 'react-native-image-zoom-viewer';
 
 import {normalize} from '../reusable/Responsive';
-import {LoadingContext} from '../../Context';
-import {fetchGameById, fetchScreenshots} from '../api';
-import {connect} from 'react-redux';
-import {mapStateToProps} from '../reusable/mapProps';
-import {purple_3} from '../reusable/colors';
+import {api_call} from '../helper_functions/api';
+import {connect, useSelector} from 'react-redux';
+import {showMessage} from 'react-native-flash-message';
+import {getDimensions} from '../reusable/ScreenDimensions';
+import {LoadingContext} from '../reusable/contexts/LoadingContext';
 
-const {width, height} = Dimensions.get('window');
+const {SCREEN_WIDTH, SCREEN_HEIGHT} = getDimensions();
 
 function Details(props) {
   const [game, setGame] = useState(null);
@@ -40,10 +40,12 @@ function Details(props) {
     minReq: false,
     recReq: false,
   });
-  const [bgImageHeight, setBGImageHeight] = useState(height * 0.415);
+  const [bgImageHeight, setBGImageHeight] = useState(SCREEN_HEIGHT * 0.415);
   const [showHeaderColor, setShowHeaderColor] = useState(false);
   const [_new, setNew] = useState(true);
   const [showModal, setShowModal] = useState(false);
+
+  const games = useSelector((state) => state.games);
 
   const ssRef = useRef(null);
 
@@ -55,7 +57,7 @@ function Details(props) {
         await getGame(id);
       })();
 
-      props.games.forEach((game) => {
+      games.forEach((game) => {
         if (game.id === id) {
           setNew(false);
         }
@@ -69,7 +71,6 @@ function Details(props) {
 
   useEffect(() => {
     let i = 0;
-    console.log('screen sht', screenshots);
     const interval = setInterval(() => {
       if (screenshots != null && screenshots.length > 3) {
         i = (i + 1) % (screenshots.length - 1);
@@ -85,18 +86,38 @@ function Details(props) {
   }, [screenshots]);
 
   const getGame = async (id) => {
-    const {results} = await fetchScreenshots(id);
-    setScreenshots(results);
+    const response = await api_call({
+      apiUrl: `/games/${id}/screenshots`,
+    });
+    if (response) {
+      const {results} = response;
+      setScreenshots(results);
+    }
 
-    const _game = await fetchGameById(id);
-    setGame(_game);
-    hideLoading();
+    const _game = await api_call({
+      apiUrl: `games/${id}`,
+    });
+
+    if (_game) {
+      setGame(_game);
+      hideLoading();
+    } else {
+      showMessage({
+        message: "Couldn't fetch",
+        description: 'Error fetching data. Please try later',
+        type: 'danger',
+        floating: 'true',
+        position: 'center',
+      });
+    }
 
     const pc = _game.platforms.find(
       (platform) => platform.platform.name.toLowerCase() === 'pc',
     );
     try {
       if ('requirements' in pc && pc.requirements !== null) {
+        console.log(pc.requirements);
+
         setHasReq((prev) => ({...prev, req: true}));
         if ('minimum' in pc.requirements) {
           setHasReq((prev) => ({...prev, minReq: true}));
@@ -108,18 +129,14 @@ function Details(props) {
     } catch (err) {}
   };
 
-  if (game === null) {
-    return null;
-  }
-
   const handleScroll = ({nativeEvent}) => {
-    if (nativeEvent.contentOffset.y >= height * 0.175) {
+    if (nativeEvent.contentOffset.y >= SCREEN_HEIGHT * 0.175) {
       setShowHeaderColor(true);
     } else if (showHeaderColor) {
       setShowHeaderColor(false);
     }
     let x = bgImageHeight - nativeEvent.contentOffset.y;
-    if (x < height * 0.3) setBGImageHeight(height * 0.3);
+    if (x < SCREEN_HEIGHT * 0.3) setBGImageHeight(SCREEN_HEIGHT * 0.3);
     else setBGImageHeight(x);
   };
 
@@ -141,7 +158,7 @@ function Details(props) {
       style={{marginRight: 5, borderRadius: 5}}>
       <Image
         source={{uri: item.image}}
-        style={{width: width * 0.3, height: width * 0.2}}
+        style={{width: SCREEN_WIDTH * 0.3, height: SCREEN_WIDTH * 0.2}}
         PlaceholderContent={
           <LottieView
             source={require('../../assets/animations/image-loader.json')}
@@ -149,10 +166,17 @@ function Details(props) {
             loop
           />
         }
-        placeholderStyle={{width: width * 0.3, height: width * 0.2}}
+        placeholderStyle={{
+          width: SCREEN_WIDTH * 0.3,
+          height: SCREEN_WIDTH * 0.2,
+        }}
       />
     </TouchableOpacity>
   );
+
+  if (game === null) {
+    return <View style={{flex: 1, backgroundColor: '#000'}}></View>;
+  }
 
   return (
     <>
@@ -179,7 +203,7 @@ function Details(props) {
             <Card style={styles.profileImage}>
               <Card.Cover
                 source={{uri: game.background_image}}
-                style={{height: width * 0.25, width: width * 0.4}}
+                style={{height: SCREEN_WIDTH * 0.25, width: SCREEN_WIDTH * 0.4}}
               />
             </Card>
           </View>
@@ -190,13 +214,7 @@ function Details(props) {
                 numberOfLines={4}
                 renderRevealedFooter={_renderRevealedFooter}
                 renderTruncatedFooter={_renderTruncatedFooter}>
-                <Text
-                  style={{
-                    textAlign: 'justify',
-                    color: '#4a4a48',
-                  }}>
-                  {game.description_raw}
-                </Text>
+                <Text style={styles.description}>{game.description_raw}</Text>
               </ReadMore>
             </View>
             <View>
@@ -267,7 +285,7 @@ function Details(props) {
                   onPress={() =>
                     setOverlay((prev) => ({...prev, reqOverlay: true}))
                   }
-                  title="Show"
+                  title="VIEW"
                   type="clear"
                   titleStyle={styles.showButton}
                 />
@@ -317,7 +335,7 @@ function Details(props) {
                           platform.platform.name.toLowerCase() === 'pc',
                       ).requirements.minimum
                     }
-                    style={{width: '100%'}}
+                    stylesheet={htmlStyles}
                   />
                 )}
                 <View
@@ -333,12 +351,13 @@ function Details(props) {
                           platform.platform.name.toLowerCase() === 'pc',
                       ).requirements.recommended
                     }
-                    style={{width: '100%'}}
+                    stylesheet={htmlStyles}
                   />
                 )}
               </ScrollView>
               <Button
                 style={{alignSelf: 'flex-end'}}
+                color="red"
                 onPress={() =>
                   setOverlay((prev) => ({...prev, reqOverlay: false}))
                 }>
@@ -348,72 +367,107 @@ function Details(props) {
           </Overlay>
         )}
       </View>
-      {_new && (
-        <Button
-          mode="contained"
-          style={{borderRadius: 0}}
-          onPress={() =>
-            props.navigation.navigate('Configure', {
-              item: props.route.params.item,
-            })
-          }>
-          Add Game
-        </Button>
-      )}
+      <Button
+        mode="contained"
+        color="red"
+        style={{borderRadius: 0}}
+        onPress={() =>
+          props.navigation.navigate('Configure', {
+            item: props.route.params.item,
+          })
+        }>
+        {_new ? 'Add Game' : 'Edit Config'}
+      </Button>
       <View
         style={{
-          width: width,
-          backgroundColor: showHeaderColor ? purple_3 : 'transparent',
+          width: SCREEN_WIDTH,
+          height: SCREEN_HEIGHT * 0.1,
+          backgroundColor: showHeaderColor ? '#000' : 'transparent',
           position: 'absolute',
           top: 0,
           left: 0,
+          justifyContent: 'center',
+          borderBottomColor: '#fff',
+          borderBottomWidth: showHeaderColor ? 1 : 0,
         }}>
-        <View style={{padding: 10}}>
-          <TouchableOpacity onPress={() => props.navigation.goBack()}>
+        <View
+          style={{
+            padding: 10,
+            flexDirection: 'row',
+            flex: 1,
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={{flex: 0.5}}>
             <Feather
-              name="arrow-left"
-              size={30}
+              name="chevron-left"
               color="#fff"
+              size={SCREEN_WIDTH * 0.07}
               style={{marginLeft: 5, marginTop: 20}}
             />
           </TouchableOpacity>
-        </View>
-        {screenshots !== null && (
-          <Modal visible={showModal}>
-            <ImageViewer
-              imageUrls={screenshots.map((ss) => {
-                return {url: ss.image};
-              })}
-              loadingRender={() => (
-                <LottieView
-                  source={require('../../assets/animations/image-loader.json')}
-                  autoPlay
-                  loop
-                />
-              )}
-            />
-            <View
-              style={{
-                alignItems: 'center',
-                paddingBottom: normalize(30),
-                backgroundColor: 'black',
-              }}>
-              <TouchableOpacity onPress={() => setShowModal(false)}>
-                <Feather
-                  name="x"
-                  color="#fff"
-                  size={normalize(30)}
+          {showHeaderColor && (
+            <>
+              {/* <View style={{flex: 0.5}}></View> */}
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                }}>
+                <Text
+                  numberOfLines={1}
                   style={{
-                    borderRadius: 30,
-                    padding: 10,
-                    backgroundColor: 'grey',
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-          </Modal>
-        )}
+                    color: '#fff',
+                    textAlign: 'center',
+                    fontSize: normalize(17),
+                    fontWeight: 'bold',
+                    marginTop: 20,
+                  }}>
+                  {game.name}
+                </Text>
+              </View>
+              <View style={{flex: 0.5}}></View>
+            </>
+          )}
+        </View>
       </View>
+
+      {screenshots !== null && (
+        <Modal visible={showModal}>
+          <ImageViewer
+            imageUrls={screenshots.map((ss) => {
+              return {url: ss.image};
+            })}
+            loadingRender={() => (
+              <LottieView
+                source={require('../../assets/animations/image-loader.json')}
+                autoPlay
+                loop
+              />
+            )}
+          />
+          <View
+            style={{
+              alignItems: 'center',
+              paddingBottom: normalize(30),
+              backgroundColor: 'black',
+            }}>
+            <TouchableOpacity onPress={() => setShowModal(false)}>
+              <Feather
+                name="x"
+                color="#fff"
+                size={normalize(30)}
+                style={{
+                  borderRadius: 30,
+                  padding: 10,
+                  backgroundColor: 'grey',
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      )}
     </>
   );
 }
@@ -421,13 +475,17 @@ function Details(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
   },
   header: {
     textAlign: 'center',
     fontSize: normalize(23),
     fontWeight: 'bold',
-    color: '#434445',
+    color: '#fff',
+  },
+  description: {
+    textAlign: 'justify',
+    color: '#fff',
   },
   footer: {
     padding: 10,
@@ -438,37 +496,52 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: -50,
     left: 10,
-    width: width * 0.41,
+    width: SCREEN_WIDTH * 0.41,
     padding: 2,
   },
   tag: {
     fontSize: normalize(14),
     fontWeight: 'bold',
     margin: 5,
-    color: '#434445',
+    color: '#fff',
   },
   overlay: {
     margin: 30,
     height: '80%',
+    backgroundColor: '#292827',
   },
   item: {
     margin: 5,
   },
   val: {
-    color: '#5c5a59',
+    color: '#e1e7e8',
   },
   link: {
-    color: 'blue',
+    color: '#2cadc7',
     textDecorationLine: 'underline',
   },
   showButton: {
-    color: '#8a36c9',
-    fontSize: normalize(14),
+    color: 'red',
+    fontSize: normalize(12),
   },
   bgImage: {
     width: '100%',
-    minHeight: height * 0.35,
+    minHeight: SCREEN_HEIGHT * 0.35,
   },
 });
 
-export default connect(mapStateToProps)(Details);
+const htmlStyles = StyleSheet.create({
+  p: {color: '#ffffff'},
+  h1: {color: '#ffffff'},
+  h2: {color: '#ffffff'},
+  h3: {color: '#ffffff'},
+  h4: {color: '#ffffff'},
+  h5: {color: '#ffffff'},
+  h6: {color: '#ffffff'},
+  span: {color: '#ffffff'},
+  div: {color: '#ffffff'},
+  ul: {color: '#ffffff'},
+  strong: {color: '#ffffff'},
+});
+
+export default Details;

@@ -1,18 +1,12 @@
 import React from 'react';
-import {
-  Image,
-  View,
-  StyleSheet,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+import {Image, View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {blue_1, blue_2, purple_1, purple_2, white} from '../../reusable/colors';
+import {getDimensions} from '../../reusable/ScreenDimensions';
 
-const {height} = Dimensions.get('screen');
+const {SCREEN_HEIGHT} = getDimensions();
 
 function WelcomeScreen(props) {
   return (
@@ -71,8 +65,8 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   image: {
-    width: height * 0.28,
-    height: height * 0.28,
+    width: SCREEN_HEIGHT * 0.28,
+    height: SCREEN_HEIGHT * 0.28,
   },
   mainText: {
     fontSize: 30,
