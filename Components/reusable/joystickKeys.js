@@ -8,31 +8,39 @@ const {SCREEN_HEIGHT, SCREEN_WIDTH} = getDimensions();
 
 const size = SCREEN_WIDTH < SCREEN_HEIGHT ? SCREEN_WIDTH : SCREEN_HEIGHT;
 
-export const UpArrow = () => (
+export const UpArrow = ({darkTheme}) => (
   <View style={{flexDirection: 'row', alignItems: 'center'}}>
     <MaterialIcons
       name="arrow-drop-up"
-      color="#fff"
+      color={darkTheme ? '#fff' : '#000'}
       style={[styles.arrow]}
       size={size * 0.2}
     />
     <Image
-      source={require('../../assets/images/analog.png')}
+      source={
+        darkTheme
+          ? require('../../assets/images/analog.png')
+          : require('../../assets/images/analog-dark.png')
+      }
       style={{width: size * 0.09, height: size * 0.06}}
     />
   </View>
 );
 
-export const RightArrow = () => (
+export const RightArrow = ({darkTheme}) => (
   <View style={{flexDirection: 'row', alignItems: 'center'}}>
     <MaterialIcons
       name="arrow-right"
-      color="#fff"
+      color={darkTheme ? '#fff' : '#000'}
       size={size * 0.2}
       style={[styles.arrow]}
     />
     <Image
-      source={require('../../assets/images/analog.png')}
+      source={
+        darkTheme
+          ? require('../../assets/images/analog.png')
+          : require('../../assets/images/analog-dark.png')
+      }
       style={{
         width: size * 0.09,
         height: size * 0.06,
@@ -42,16 +50,20 @@ export const RightArrow = () => (
   </View>
 );
 
-export const LeftArrow = () => (
+export const LeftArrow = ({darkTheme}) => (
   <View style={{flexDirection: 'row', alignItems: 'center'}}>
     <MaterialIcons
       name="arrow-left"
-      color="#fff"
+      color={darkTheme ? '#fff' : '#000'}
       size={size * 0.2}
       style={[styles.arrow]}
     />
     <Image
-      source={require('../../assets/images/analog.png')}
+      source={
+        darkTheme
+          ? require('../../assets/images/analog.png')
+          : require('../../assets/images/analog-dark.png')
+      }
       style={{
         width: size * 0.09,
         height: size * 0.06,
@@ -61,16 +73,20 @@ export const LeftArrow = () => (
   </View>
 );
 
-export const DownArrow = () => (
+export const DownArrow = ({darkTheme}) => (
   <View style={{flexDirection: 'row', alignItems: 'center'}}>
     <MaterialIcons
       name="arrow-drop-down"
-      color="#fff"
+      color={darkTheme ? '#fff' : '#000'}
       size={size * 0.2}
       style={[styles.arrow]}
     />
     <Image
-      source={require('../../assets/images/analog.png')}
+      source={
+        darkTheme
+          ? require('../../assets/images/analog.png')
+          : require('../../assets/images/analog-dark.png')
+      }
       style={{
         width: size * 0.09,
         height: size * 0.06,
@@ -108,12 +124,22 @@ export const Cross = () => (
   />
 );
 
-export const Pause = () => (
-  <Ionicons name="pause" size={size * 0.1} color="#fff" style={styles.icon} />
+export const Pause = ({darkTheme}) => (
+  <Ionicons
+    name="pause"
+    size={size * 0.1}
+    color={darkTheme ? '#fff' : '#000'}
+    style={styles.icon}
+  />
 );
 
-export const Enter = () => (
-  <Ionicons name="play" size={size * 0.1} color="#fff" style={styles.icon} />
+export const Enter = ({darkTheme}) => (
+  <Ionicons
+    name="play"
+    size={size * 0.1}
+    color={darkTheme ? '#fff' : '#000'}
+    style={styles.icon}
+  />
 );
 
 const styles = StyleSheet.create({

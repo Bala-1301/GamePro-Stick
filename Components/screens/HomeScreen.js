@@ -9,6 +9,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import database from '@react-native-firebase/database';
 import {useRoute} from '@react-navigation/native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {normalize} from '../reusable/Responsive';
 import {showMessage} from 'react-native-flash-message';
@@ -23,11 +24,13 @@ import {
   setCurrentClient,
   setCurrentGame,
 } from '../redux/actions';
+import {ThemeContext} from '../reusable/contexts/ThemeContext';
 
 const {SCREEN_WIDTH, SCREEN_HEIGHT} = getDimensions();
 
 function HomeScreen(props) {
   const {client, setClient, removeClient} = useContext(ClientContext);
+  const {darkTheme} = useContext(ThemeContext);
   const {user} = useContext(AuthContext);
   const route = useRoute();
 
@@ -35,6 +38,7 @@ function HomeScreen(props) {
   const games = useSelector((state) => state.games);
   const currentClient = useSelector((state) => state.currentClient);
   const dispatch = useDispatch();
+  const playTime = useSelector((state) => state.playTime);
 
   useEffect(() => {
     let i = 0;
@@ -102,7 +106,7 @@ function HomeScreen(props) {
     } else {
       Alert.alert(
         'Not connected to any PC',
-        'Connect to a PC by scanning the QR code.',
+        'Connect to a PC by scanning the QR code in desktop application .',
       );
     }
   };
@@ -118,12 +122,15 @@ function HomeScreen(props) {
   const renderItem = ({item: game}) => (
     <View
       style={{
-        marginBottom: 20,
+        marginBottom: 10,
+        marginTop: 10,
         marginLeft: normalize(19),
         marginRight: normalize(19),
+        elevation: 13,
       }}>
       <View style={{alignItems: 'center', marginTop: 5}}>
-        <View style={{backgroundColor: '#fff', borderRadius: 10}}>
+        <View
+          style={{backgroundColor: '#fff', borderRadius: 10, elevation: 15}}>
           <Image
             source={{uri: game.image}}
             style={{
@@ -131,6 +138,11 @@ function HomeScreen(props) {
               height: SCREEN_WIDTH * 0.45,
               borderRadius: 10,
             }}
+            onPress={() =>
+              props.navigation.navigate('Details', {
+                item: {name: game.name, id: game.id},
+              })
+            }
             PlaceholderContent={
               <LottieView
                 source={require('../../assets/animations/image-loader.json')}
@@ -141,7 +153,13 @@ function HomeScreen(props) {
           />
         </View>
       </View>
-      <View style={{position: 'absolute', top: SCREEN_WIDTH * 0.4, right: 30}}>
+      <View
+        style={{
+          position: 'absolute',
+          top: SCREEN_WIDTH * 0.4,
+          right: 30,
+          elevation: 20,
+        }}>
         <Button
           color="red"
           mode="contained"
@@ -182,7 +200,7 @@ function HomeScreen(props) {
                 textAlign: 'left',
                 fontSize: normalize(14),
                 fontWeight: 'bold',
-                color: '#fff',
+                color: darkTheme ? '#fff' : '#000',
                 textDecorationStyle: 'solid',
                 textDecorationLine: 'underline',
               }}>
@@ -206,43 +224,65 @@ function HomeScreen(props) {
   return (
     <>
       <Header
-        statusBarProps={{barStyle: 'light-content', backgroundColor: '#000'}}
+        statusBarProps={{
+          barStyle: darkTheme ? 'light-content' : 'dark-content',
+          backgroundColor: darkTheme ? '#000' : '#fff',
+        }}
         centerComponent={{
           text: 'GamePro Joystick',
           style: {
             fontSize: normalize(22),
-            color: '#fff',
+            color: darkTheme ? '#fff' : '#000',
             fontWeight: 'bold',
           },
         }}
         rightComponent={
-          <Tooltip
-            withOverlay={false}
-            closeOnlyOnBackdropPress={false}
-            popover={
-              <Text style={{color: '#fff'}}>
-                {client !== null
-                  ? currentClient != null
-                    ? `Connected to ${currentClient.name}`
-                    : 'Connected'
-                  : 'Not Connected'}
-              </Text>
-            }>
-            <Ionicons
-              name="ellipse"
-              color={client !== null ? '#47d16c' : 'red'}
-              size={normalize(13)}
-              style={{padding: 5, alignSelf: 'center'}}
-            />
-          </Tooltip>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Tooltip
+              withOverlay={false}
+              closeOnlyOnBackdropPress={false}
+              popover={
+                <Text style={{color: darkTheme ? '#fff' : '#000'}}>
+                  {client !== null
+                    ? currentClient != null
+                      ? `Connected to ${currentClient.name}`
+                      : 'Connected'
+                    : 'Not Connected'}
+                </Text>
+              }>
+              <Ionicons
+                name="ellipse"
+                color={client !== null ? '#47d16c' : 'red'}
+                size={normalize(13)}
+                style={{padding: 5, alignSelf: 'center'}}
+              />
+            </Tooltip>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('Scan-QR')}>
+              <MaterialIcons
+                name="qr-code-scanner"
+                size={normalize(25)}
+                color={darkTheme ? '#fff' : '#000'}
+              />
+            </TouchableOpacity>
+          </View>
         }
         containerStyle={{
-          backgroundColor: '#000',
+          backgroundColor: darkTheme ? '#000' : '#fff',
           borderBottomColor: '#a2a3a2',
           borderBottomWidth: 0.2,
         }}
       />
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {backgroundColor: darkTheme ? '#000' : '#fff'},
+        ]}>
         {games.length !== 0 ? (
           <SwipeListView
             data={games}
@@ -283,7 +323,6 @@ function HomeScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
   },
   header: {
     flexDirection: 'row',

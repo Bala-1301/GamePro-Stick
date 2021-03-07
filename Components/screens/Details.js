@@ -25,12 +25,13 @@ import {connect, useSelector} from 'react-redux';
 import {showMessage} from 'react-native-flash-message';
 import {getDimensions} from '../reusable/ScreenDimensions';
 import {LoadingContext} from '../reusable/contexts/LoadingContext';
+import {ThemeContext} from '../reusable/contexts/ThemeContext';
 
 const {SCREEN_WIDTH, SCREEN_HEIGHT} = getDimensions();
 
 function Details(props) {
   const [game, setGame] = useState(null);
-  const {showLoading, hideLoading} = useContext(LoadingContext);
+
   const [screenshots, setScreenshots] = useState(null);
   const [{reqOverlay}, setOverlay] = useState({
     reqOverlay: false,
@@ -45,7 +46,24 @@ function Details(props) {
   const [_new, setNew] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
+  const {showLoading, hideLoading} = useContext(LoadingContext);
+  const {darkTheme} = useContext(ThemeContext);
+
   const games = useSelector((state) => state.games);
+
+  const htmlStyles = StyleSheet.create({
+    p: {color: '#000000'},
+    h1: {color: '#000000'},
+    h2: {color: '#000000'},
+    h3: {color: '#000000'},
+    h4: {color: '#000000'},
+    h5: {color: '#000000'},
+    h6: {color: '#000000'},
+    span: {color: '#000000'},
+    div: {color: '#000000'},
+    ul: {color: '#000000'},
+    strong: {color: '#000000'},
+  });
 
   const ssRef = useRef(null);
 
@@ -72,7 +90,11 @@ function Details(props) {
   useEffect(() => {
     let i = 0;
     const interval = setInterval(() => {
-      if (screenshots != null && screenshots.length > 3) {
+      if (
+        screenshots != null &&
+        screenshots.length > 3 &&
+        ssRef.current !== null
+      ) {
         i = (i + 1) % (screenshots.length - 1);
         ssRef.current.scrollToIndex({
           index: i,
@@ -86,47 +108,53 @@ function Details(props) {
   }, [screenshots]);
 
   const getGame = async (id) => {
-    const response = await api_call({
-      apiUrl: `/games/${id}/screenshots`,
-    });
-    if (response) {
-      const {results} = response;
-      setScreenshots(results);
-    }
-
-    const _game = await api_call({
-      apiUrl: `games/${id}`,
-    });
-
-    if (_game) {
-      setGame(_game);
-      hideLoading();
-    } else {
-      showMessage({
-        message: "Couldn't fetch",
-        description: 'Error fetching data. Please try later',
-        type: 'danger',
-        floating: 'true',
-        position: 'center',
-      });
-    }
-
-    const pc = _game.platforms.find(
-      (platform) => platform.platform.name.toLowerCase() === 'pc',
-    );
     try {
-      if ('requirements' in pc && pc.requirements !== null) {
-        console.log(pc.requirements);
-
-        setHasReq((prev) => ({...prev, req: true}));
-        if ('minimum' in pc.requirements) {
-          setHasReq((prev) => ({...prev, minReq: true}));
-        }
-        if ('recommended' in pc.requirements) {
-          setHasReq((prev) => ({...prev, recReq: true}));
-        }
+      const response = await api_call({
+        apiUrl: `/games/${id}/screenshots`,
+      });
+      if (response) {
+        const {results} = response;
+        setScreenshots(results);
       }
-    } catch (err) {}
+
+      const _game = await api_call({
+        apiUrl: `games/${id}`,
+      });
+
+      if (_game) {
+        setGame(_game);
+        hideLoading();
+      } else {
+        showMessage({
+          message: "Couldn't fetch",
+          description: 'Error fetching data. Please try later',
+          type: 'danger',
+          floating: 'true',
+          position: 'center',
+        });
+      }
+
+      const pc = _game.platforms.find(
+        (platform) => platform.platform.name.toLowerCase() === 'pc',
+      );
+      try {
+        if (
+          pc?.requirements &&
+          pc.requirements !== null &&
+          Object.keys(pc.requirements).length !== 0
+        ) {
+          setHasReq((prev) => ({...prev, req: true}));
+          if (pc.requirements?.minimum) {
+            setHasReq((prev) => ({...prev, minReq: true}));
+          }
+          if (pc.requirements?.recommended) {
+            setHasReq((prev) => ({...prev, recReq: true}));
+          }
+        }
+      } catch (err) {}
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   const handleScroll = ({nativeEvent}) => {
@@ -175,15 +203,33 @@ function Details(props) {
   );
 
   if (game === null) {
-    return <View style={{flex: 1, backgroundColor: '#000'}}></View>;
+    return (
+      <TouchableOpacity
+        style={{flex: 1, backgroundColor: darkTheme ? '#000' : '#fff'}}
+        onPress={() => props.navigation.goBack()}>
+        <Feather
+          name="chevron-left"
+          color={darkTheme ? '#fff' : '#000'}
+          size={SCREEN_WIDTH * 0.07}
+          style={{marginLeft: 15, marginTop: 40}}
+        />
+      </TouchableOpacity>
+    );
   }
 
   return (
     <>
-      <View style={styles.container}>
+      <View
+        style={[
+          styles.container,
+          {backgroundColor: darkTheme ? '#000' : '#fff'},
+        ]}>
         <StatusBar
           translucent
           backgroundColor={showModal ? 'black' : 'transparent'}
+          barStyle={
+            darkTheme || !showHeaderColor ? 'light-content' : 'dark-content'
+          }
         />
         <ScrollView onScroll={handleScroll}>
           <View>
@@ -208,17 +254,27 @@ function Details(props) {
             </Card>
           </View>
           <View style={styles.footer}>
-            <Text style={styles.header}>{game.name}</Text>
+            <Text style={[styles.header, {color: darkTheme ? '#fff' : '#000'}]}>
+              {game.name}
+            </Text>
             <View style={{margin: 5}}>
               <ReadMore
                 numberOfLines={4}
                 renderRevealedFooter={_renderRevealedFooter}
                 renderTruncatedFooter={_renderTruncatedFooter}>
-                <Text style={styles.description}>{game.description_raw}</Text>
+                <Text
+                  style={[
+                    styles.description,
+                    {color: darkTheme ? '#fff' : '#000'},
+                  ]}>
+                  {game.description_raw}
+                </Text>
               </ReadMore>
             </View>
             <View>
-              <Text style={styles.tag}>Game Screenshots:</Text>
+              <Text style={[styles.tag, {color: darkTheme ? '#fff' : '#000'}]}>
+                Game Screenshots:
+              </Text>
               <FlatList
                 data={screenshots}
                 renderItem={renderScreenshot}
@@ -227,7 +283,9 @@ function Details(props) {
                 keyExtractor={(item, index) => index + ''}
                 ref={ssRef}
                 ListEmptyComponent={
-                  <Text style={styles.val}>Not Available</Text>
+                  <Text style={{color: darkTheme ? '#e1e7e8' : '#555755'}}>
+                    Not Available
+                  </Text>
                 }
                 getItemLayout={(data, index) => ({
                   length: screenshots !== null ? screenshots.length : 0,
@@ -237,49 +295,65 @@ function Details(props) {
               />
             </View>
             <Text style={styles.item}>
-              <Text style={styles.tag}>Playtime: </Text>
-              <Text style={styles.val}>
+              <Text style={[styles.tag, {color: darkTheme ? '#fff' : '#000'}]}>
+                Playtime:{' '}
+              </Text>
+              <Text style={{color: darkTheme ? '#e1e7e8' : '#555755'}}>
                 {game.playtime === 0
                   ? 'Not Available'
                   : game.playtime + ' Hour(s)'}
               </Text>
             </Text>
             <Text style={styles.item}>
-              <Text style={styles.tag}>Ratings: </Text>
-              <Text style={styles.val}>
+              <Text style={[styles.tag, {color: darkTheme ? '#fff' : '#000'}]}>
+                Ratings:{' '}
+              </Text>
+              <Text style={{color: darkTheme ? '#e1e7e8' : '#555755'}}>
                 {game.rating} ({game.ratings_count})
               </Text>
             </Text>
             <Text style={styles.item}>
-              <Text style={styles.tag}>Genre: </Text>
-              <Text style={styles.val}>
+              <Text style={[styles.tag, {color: darkTheme ? '#fff' : '#000'}]}>
+                Genre:{' '}
+              </Text>
+              <Text style={{color: darkTheme ? '#e1e7e8' : '#555755'}}>
                 {game.genres.map((genre, i) => {
                   return i === 0 ? genre.name : ' ,' + genre.name;
                 })}
               </Text>
             </Text>
             <Text style={styles.item}>
-              <Text style={styles.tag}>Released: </Text>
-              <Text style={styles.val}>{game.released}</Text>
+              <Text style={[styles.tag, {color: darkTheme ? '#fff' : '#000'}]}>
+                Released:{' '}
+              </Text>
+              <Text style={{color: darkTheme ? '#e1e7e8' : '#555755'}}>
+                {game.released}
+              </Text>
             </Text>
             <Text style={styles.item}>
-              <Text style={styles.tag}>Publishers: </Text>
-              <Text style={styles.val}>
+              <Text style={[styles.tag, {color: darkTheme ? '#fff' : '#000'}]}>
+                Publishers:{' '}
+              </Text>
+              <Text style={{color: darkTheme ? '#e1e7e8' : '#555755'}}>
                 {game.publishers.map((p, i) => {
                   return i === 0 ? p.name : ' ,' + p.name;
                 })}
               </Text>
             </Text>
             <Text style={styles.item}>
-              <Text style={styles.tag}>Developers: </Text>
-              <Text style={styles.val}>
+              <Text style={[styles.tag, {color: darkTheme ? '#fff' : '#000'}]}>
+                Developers:{' '}
+              </Text>
+              <Text style={{color: darkTheme ? '#e1e7e8' : '#555755'}}>
                 {game.developers.map((d, i) => {
                   return i === 0 ? d.name : ' ,' + d.name;
                 })}
               </Text>
             </Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={styles.tag}>PC Requirements: </Text>
+              <Text style={[styles.tag, {color: darkTheme ? '#fff' : '#000'}]}>
+                PC Requirements:{' '}
+              </Text>
               {req ? (
                 <EButton
                   onPress={() =>
@@ -288,18 +362,23 @@ function Details(props) {
                   title="VIEW"
                   type="clear"
                   titleStyle={styles.showButton}
+                  TouchableComponent={TouchableOpacity}
                 />
               ) : (
-                <Text style={styles.val}>Not Available</Text>
+                <Text style={{color: darkTheme ? '#e1e7e8' : '#555755'}}>
+                  Not Available
+                </Text>
               )}
             </View>
             <Text style={styles.item}>
-              <Text style={styles.tag}>Official Website: </Text>
+              <Text style={[styles.tag, {color: darkTheme ? '#fff' : '#000'}]}>
+                Official Website:{' '}
+              </Text>
               <Text
                 style={
                   'website' in game && game.website !== ''
                     ? styles.link
-                    : styles.val
+                    : {color: darkTheme ? '#e1e7e8' : '#555755'}
                 }
                 onPress={() => Linking.openURL(game.website)}>
                 {'website' in game && game.website !== ''
@@ -315,13 +394,17 @@ function Details(props) {
             onBackdropPress={() =>
               setOverlay((prev) => ({...prev, reqOverlay: false}))
             }
-            overlayStyle={styles.overlay}>
+            overlayStyle={[styles.overlay, {backgroundColor: '#fff'}]}>
             <>
               <View style={{elevation: 20}}>
                 <Text
                   style={[
                     styles.tag,
-                    {textAlign: 'center', fontSize: normalize(16)},
+                    {
+                      textAlign: 'center',
+                      fontSize: normalize(16),
+                      color: '#000',
+                    },
                   ]}>
                   PC Requirements
                 </Text>
@@ -382,12 +465,16 @@ function Details(props) {
         style={{
           width: SCREEN_WIDTH,
           height: SCREEN_HEIGHT * 0.1,
-          backgroundColor: showHeaderColor ? '#000' : 'transparent',
+          backgroundColor: showHeaderColor
+            ? darkTheme
+              ? '#000'
+              : '#fff'
+            : 'transparent',
           position: 'absolute',
           top: 0,
           left: 0,
           justifyContent: 'center',
-          borderBottomColor: '#fff',
+          borderBottomColor: darkTheme ? '#fff' : '#000',
           borderBottomWidth: showHeaderColor ? 1 : 0,
         }}>
         <View
@@ -402,7 +489,7 @@ function Details(props) {
             style={{flex: 0.5}}>
             <Feather
               name="chevron-left"
-              color="#fff"
+              color={darkTheme || !showHeaderColor ? '#fff' : '#000'}
               size={SCREEN_WIDTH * 0.07}
               style={{marginLeft: 5, marginTop: 20}}
             />
@@ -418,7 +505,7 @@ function Details(props) {
                 <Text
                   numberOfLines={1}
                   style={{
-                    color: '#fff',
+                    color: darkTheme ? '#fff' : '#000',
                     textAlign: 'center',
                     fontSize: normalize(17),
                     fontWeight: 'bold',
@@ -434,7 +521,10 @@ function Details(props) {
       </View>
 
       {screenshots !== null && (
-        <Modal visible={showModal}>
+        <Modal
+          visible={showModal}
+          onRequestClose={() => setShowModal(false)}
+          style={{backgroundColor: '#000', flex: 1}}>
           <ImageViewer
             imageUrls={screenshots.map((ss) => {
               return {url: ss.image};
@@ -449,21 +539,12 @@ function Details(props) {
           />
           <View
             style={{
-              alignItems: 'center',
-              paddingBottom: normalize(30),
-              backgroundColor: 'black',
+              position: 'absolute',
+              top: 20,
+              left: 10,
             }}>
             <TouchableOpacity onPress={() => setShowModal(false)}>
-              <Feather
-                name="x"
-                color="#fff"
-                size={normalize(30)}
-                style={{
-                  borderRadius: 30,
-                  padding: 10,
-                  backgroundColor: 'grey',
-                }}
-              />
+              <Feather name="chevron-left" color="#fff" size={normalize(25)} />
             </TouchableOpacity>
           </View>
         </Modal>
@@ -475,17 +556,14 @@ function Details(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
   },
   header: {
     textAlign: 'center',
     fontSize: normalize(23),
     fontWeight: 'bold',
-    color: '#fff',
   },
   description: {
     textAlign: 'justify',
-    color: '#fff',
   },
   footer: {
     padding: 10,
@@ -503,19 +581,16 @@ const styles = StyleSheet.create({
     fontSize: normalize(14),
     fontWeight: 'bold',
     margin: 5,
-    color: '#fff',
   },
   overlay: {
     margin: 30,
     height: '80%',
-    backgroundColor: '#292827',
+    minWidth: SCREEN_WIDTH * 0.75,
   },
   item: {
     margin: 5,
   },
-  val: {
-    color: '#e1e7e8',
-  },
+
   link: {
     color: '#2cadc7',
     textDecorationLine: 'underline',
@@ -528,20 +603,6 @@ const styles = StyleSheet.create({
     width: '100%',
     minHeight: SCREEN_HEIGHT * 0.35,
   },
-});
-
-const htmlStyles = StyleSheet.create({
-  p: {color: '#ffffff'},
-  h1: {color: '#ffffff'},
-  h2: {color: '#ffffff'},
-  h3: {color: '#ffffff'},
-  h4: {color: '#ffffff'},
-  h5: {color: '#ffffff'},
-  h6: {color: '#ffffff'},
-  span: {color: '#ffffff'},
-  div: {color: '#ffffff'},
-  ul: {color: '#ffffff'},
-  strong: {color: '#ffffff'},
 });
 
 export default Details;

@@ -7,6 +7,7 @@ import Configure from '../screens/Configure';
 import TabNavigator from './TabNavigator';
 import Details from '../screens/Details';
 import {purple_3} from '../reusable/colors';
+import ScanQRScreen from '../screens/ScanQRScreen';
 
 const Stack = createStackNavigator();
 
@@ -46,6 +47,11 @@ function HomeStackNavigator(props) {
         name="Details"
         component={Details}
         options={({route}) => ({title: route.params.name, headerShown: false})}
+      />
+      <Stack.Screen
+        name="Scan-QR"
+        component={ScanQRScreen}
+        // options={{title: 'Scan QR'}}
       />
     </Stack.Navigator>
   );

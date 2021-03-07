@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {Overlay} from 'react-native-elements';
@@ -18,6 +18,7 @@ import {
   UpArrow,
 } from '../reusable/joystickKeys';
 import {getDimensions} from '../reusable/ScreenDimensions';
+import {ThemeContext} from '../reusable/contexts/ThemeContext';
 
 const {SCREEN_WIDTH, SCREEN_HEIGHT} = getDimensions();
 
@@ -27,16 +28,18 @@ function Configurations(props) {
   const [showOverlay, setShowOverlay] = useState(false);
   const {buttons} = props;
 
+  const {darkTheme} = useContext(ThemeContext);
+
   const getKey = (key) => {
     switch (key) {
       case 'up':
-        return <UpArrow />;
+        return <UpArrow darkTheme={darkTheme} />;
       case 'down':
-        return <DownArrow />;
+        return <DownArrow darkTheme={darkTheme} />;
       case 'left':
-        return <LeftArrow />;
+        return <LeftArrow darkTheme={darkTheme} />;
       case 'right':
-        return <RightArrow />;
+        return <RightArrow darkTheme={darkTheme} />;
       case 'circle':
         return <Circle />;
       case 'square':
@@ -46,15 +49,15 @@ function Configurations(props) {
       case 'cross':
         return <Cross />;
       case 'pause':
-        return <Pause />;
+        return <Pause darkTheme={darkTheme} />;
       case 'start':
-        return <Enter />;
+        return <Enter darkTheme={darkTheme} />;
       default:
         return (
           <Text
             style={{
               fontSize: normalize(18),
-              color: '#fff',
+              color: darkTheme ? '#fff' : '#000',
               marginLeft: SCREEN_WIDTH * 0.07,
               margin: SCREEN_WIDTH * 0.04,
               flex: 1,
@@ -98,7 +101,10 @@ function Configurations(props) {
             setShowOverlay(false);
             setText('');
           }}
-          overlayStyle={{backgroundColor: '#292827'}}>
+          overlayStyle={[
+            styles.overlay,
+            {backgroundColor: darkTheme ? '#292827' : '#fff'},
+          ]}>
           <>
             <View style={{alignItems: 'flex-end'}}>
               <Feather
@@ -108,7 +114,7 @@ function Configurations(props) {
                   setShowOverlay(false);
                   setText('');
                 }}
-                color="#fff"
+                color={darkTheme ? '#fff' : '#000'}
               />
             </View>
             <View style={styles.innerModalView}>
@@ -127,13 +133,22 @@ function Configurations(props) {
                 )}
                 renderItem={({item}) => (
                   <TouchableOpacity
-                    style={styles.overlayTouchable}
+                    style={[
+                      styles.overlayTouchable,
+                      {borderColor: darkTheme ? '#fff' : '#000'},
+                    ]}
                     onPress={() => {
                       props.onChange(item, current);
                       setShowOverlay(false);
                       setText('');
                     }}>
-                    <Text style={styles.overlayText}>{item.name}</Text>
+                    <Text
+                      style={[
+                        styles.overlayText,
+                        {color: darkTheme ? '#fff' : '#000'},
+                      ]}>
+                      {item.name}
+                    </Text>
                   </TouchableOpacity>
                 )}
                 keyExtractor={(item) => item.value}
@@ -153,7 +168,7 @@ const greater = SCREEN_WIDTH < SCREEN_WIDTH ? SCREEN_WIDTH : SCREEN_WIDTH;
 const styles = StyleSheet.create({
   innerModalView: {
     alignItems: 'center',
-    maxHeight: greater / 2.5,
+    maxHeight: greater / 1.75,
     width: SCREEN_WIDTH * 0.5,
   },
   view: {
@@ -185,9 +200,14 @@ const styles = StyleSheet.create({
   overlayText: {
     textAlign: 'center',
     width: normalize(90),
-    color: '#fff',
   },
-  overlayTextInput: {width: SCREEN_WIDTH * 0.4, height: SCREEN_WIDTH * 0.125},
+  overlayTextInput: {
+    width: SCREEN_WIDTH * 0.4,
+    height: SCREEN_WIDTH * 0.125,
+  },
+  overlay: {
+    height: SCREEN_HEIGHT * 0.35,
+  },
 });
 
 export default Configurations;

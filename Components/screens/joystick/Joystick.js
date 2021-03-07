@@ -22,6 +22,7 @@ import {checkSameDay, getTime} from '../../helper_functions/checkSameDay';
 import {Button} from 'react-native-paper';
 import {getDimensions} from '../../reusable/ScreenDimensions';
 import {ClientContext} from '../../reusable/contexts/ClientContext';
+import {addPerDayPlayTime, addPlayTime, setReminded} from '../../redux/actions';
 
 const {SCREEN_HEIGHT, SCREEN_WIDTH} = getDimensions();
 
@@ -57,18 +58,18 @@ class Joystick extends React.Component {
     const {client} = this.context;
     this.client = client;
     const {playTime} = this.props;
-    if (!playTime.perDayData.reminded && playTime.reminderLimit !== Infinity) {
-      const reminder = setInterval(() => {
-        if (
-          playTime.reminderLimit <=
-          playTime.perDayData.time + (this.state.time - Date.now())
-        ) {
-          this.setState({showReminder: true});
-          this.props.setReminded();
-          clearInterval(reminder);
-        }
-      }, 30 * 1000);
-    }
+    // if (!playTime.perDayData.reminded && playTime.reminderLimit !== Infinity) {
+    //   const reminder = setInterval(() => {
+    //     if (
+    //       playTime.reminderLimit <=
+    //       playTime.perDayData.time + (this.state.time - Date.now())
+    //     ) {
+    //       this.setState({showReminder: true});
+    //       this.props.setReminded();
+    //       clearInterval(reminder);
+    //     }
+    //   }, 30 * 1000);
+    // }
   }
 
   componentDidUpdate() {
@@ -324,7 +325,7 @@ class Joystick extends React.Component {
           </View>
         )}
 
-        <Overlay
+        {/* <Overlay
           isVisible={this.state.showReminder}
           onBackdropPress={() => this.setState({showReminder: false})}
           overlayStyle={styles.overlay}>
@@ -336,7 +337,7 @@ class Joystick extends React.Component {
           <Button onPress={() => this.setState({showReminder: false})}>
             Close
           </Button>
-        </Overlay>
+        </Overlay> */}
       </>
     );
   }

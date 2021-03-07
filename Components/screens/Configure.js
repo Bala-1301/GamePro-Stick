@@ -13,12 +13,15 @@ import {Header} from 'react-native-elements';
 import {getDimensions} from '../reusable/ScreenDimensions';
 import {AuthContext} from '../reusable/contexts/AuthContext';
 import {addGame, setCurrentGame, updateGame} from '../redux/actions';
+import {ThemeContext} from '../reusable/contexts/ThemeContext';
 
-const {SCREEN_WIDTH} = getDimensions();
+const {SCREEN_WIDTH, SCREEN_HEIGHT} = getDimensions();
 
 function Configure(props) {
   const currentGame = useSelector((state) => state.currentGame);
   const games = useSelector((state) => state.games);
+
+  const {darkTheme} = useContext(ThemeContext);
 
   const dispatch = useDispatch();
 
@@ -82,9 +85,13 @@ function Configure(props) {
       <Header
         centerComponent={{
           text: 'Configure Game',
-          style: {color: '#fff', fontSize: normalize(20), fontWeight: 'bold'},
+          style: {
+            color: darkTheme ? '#fff' : '#000',
+            fontSize: normalize(20),
+            fontWeight: 'bold',
+          },
         }}
-        containerStyle={{backgroundColor: '#000'}}
+        containerStyle={{backgroundColor: darkTheme ? '#000' : '#fff'}}
         leftComponent={
           props.route !== undefined ? (
             <TouchableOpacity
@@ -92,16 +99,30 @@ function Configure(props) {
               onPress={() => props.navigation.goBack()}>
               <Feather
                 name="chevron-left"
-                color="#fff"
+                color={darkTheme ? '#fff' : '#000'}
                 size={SCREEN_WIDTH * 0.07}
               />
             </TouchableOpacity>
           ) : null
         }
       />
-      <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
-        <Text style={styles.title}>{item.name}</Text>
-        <View style={{marginTop: 20}}>
+      <ScrollView
+        style={[
+          styles.container,
+          {backgroundColor: darkTheme ? '#000' : '#fff'},
+        ]}
+        keyboardShouldPersistTaps="handled">
+        <View
+          style={{
+            width:
+              props.route !== undefined ? SCREEN_WIDTH : SCREEN_WIDTH * 0.8,
+            flex: 1,
+          }}>
+          <Text style={[styles.title, {color: darkTheme ? '#fff' : '#000'}]}>
+            {item.name}
+          </Text>
+        </View>
+        <View style={{marginTop: 20, flex: 1}}>
           <Configurations
             buttons={buttons}
             onChange={handleChange}
@@ -125,7 +146,9 @@ function Configure(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    width: '100%',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   title: {
     textAlign: 'center',
@@ -134,7 +157,6 @@ const styles = StyleSheet.create({
     margin: normalize(10),
     marginLeft: normalize(25),
     marginRight: normalize(25),
-    color: '#fff',
   },
   movement: {
     flexDirection: 'row',

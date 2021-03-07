@@ -32,8 +32,6 @@ export const getTimeFromSeconds = (_time, isFull) => {
   let displayHours = null;
   let displayMins = null;
 
-  console.log(hours);
-
   if (hours > 1) {
     displayHours = isFull ? `${hours} hours` : `${hours}h`;
   } else if (hours === 1) {
@@ -60,4 +58,35 @@ export const getHours = (time) => {
 export const getMins = (time) => {
   const minsInSec = time % (60 * 60 * 1000);
   return minsInSec / (60 * 1000);
+};
+
+// export const getSeconds = (time) => {
+//   const
+// }
+
+export const getDisplayTime = (time) => {
+  var sec_num = parseInt(time / 1000); // don't forget the second param
+  var hours = Math.floor(sec_num / 3600);
+  var minutes = Math.floor((sec_num - hours * 3600) / 60);
+  var seconds = sec_num - hours * 3600 - minutes * 60;
+
+  if (hours < 10) {
+    hours = '0' + hours;
+  }
+  if (minutes < 10) {
+    minutes = '0' + minutes;
+  }
+  if (seconds < 10) {
+    seconds = '0' + seconds;
+  }
+
+  if (hours === 0 || hours === '00') {
+    if (minutes === 0 || minutes === '00') {
+      return seconds + 's';
+    } else {
+      return minutes + 'm ' + seconds + 's';
+    }
+  } else {
+    return hours + 'h ' + minutes + 'm';
+  }
 };

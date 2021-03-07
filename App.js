@@ -14,6 +14,7 @@ import {LogBox} from 'react-native';
 import Loading from './Components/reusable/contexts/LoadingContext';
 import TrendingGames from './Components/reusable/contexts/TrendingGamesContext';
 import Client from './Components/reusable/contexts/ClientContext';
+import Contexts from './Components/reusable/contexts/Contexts';
 
 LogBox.ignoreAllLogs();
 
@@ -31,13 +32,9 @@ function App() {
             colors: {...DefaultTheme.colors, primary: 'red'},
           }}>
           <NavigationContainer ref={navigationRef}>
-            <Loading>
-              <TrendingGames>
-                <Client>
-                  <Main />
-                </Client>
-              </TrendingGames>
-            </Loading>
+            <Contexts>
+              <Main />
+            </Contexts>
             <FlashMessage position="bottom" />
           </NavigationContainer>
         </PaperProvider>

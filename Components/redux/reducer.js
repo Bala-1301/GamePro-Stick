@@ -1,4 +1,5 @@
 import {combineReducers} from 'redux';
+import {SOUND_FEEDBACK} from '../reusable/ButtonSound';
 
 import {
   ADD_GAME,
@@ -16,6 +17,7 @@ import {
   REMOVE_REMINDER_LIMIT,
   SET_JOYSTICK_FEEDBACK,
   SET_REMINDED,
+  RESET_GAMES,
 } from './actions';
 
 const gamesReducer = (state = [], action) => {
@@ -39,6 +41,8 @@ const gamesReducer = (state = [], action) => {
       return action.games;
     case REMOVE_GAME:
       return state.filter((game) => game.id !== action.id);
+    case RESET_GAMES:
+      return [];
     default:
       return state;
   }
@@ -80,7 +84,7 @@ const currentClientReducer = (state = null, action) => {
 };
 
 const INIT_JOYSTICK = {
-  feedback: 'Vibrate',
+  feedback: SOUND_FEEDBACK,
 };
 
 const joystickFeedbackReducer = (state = INIT_JOYSTICK, action) => {
@@ -99,70 +103,7 @@ const INIT_PLAY_TIME = {
     time: 0,
     games: [],
   },
-  allDayData: [
-    {
-      date: new Date(2020, 11, 1),
-      time: 1000 * 60 * 60,
-    },
-    {
-      date: new Date(2020, 11, 2),
-      time: 1000 * 60 * 60,
-    },
-
-    {
-      date: new Date(2020, 11, 3),
-      time: 1000 * 60 * 70,
-    },
-    {
-      date: new Date(2020, 11, 4),
-      time: 1000 * 60 * 30,
-    },
-    {
-      date: new Date(2020, 11, 5),
-      time: 1000 * 60 * 50,
-    },
-    {
-      date: new Date(2020, 11, 6),
-      time: 1000 * 60 * 40,
-    },
-    {
-      date: new Date(2020, 11, 7),
-      time: 1000 * 60 * 80,
-    },
-    {
-      date: new Date(2020, 11, 8),
-      time: 1000 * 60 * 90,
-    },
-    {
-      date: new Date(2020, 11, 9),
-      time: 1000 * 60 * 10,
-    },
-
-    {
-      date: new Date(2020, 11, 10),
-      time: 1000 * 60 * 40,
-    },
-    {
-      date: new Date(2020, 11, 11),
-      time: 1000 * 60 * 20,
-    },
-    {
-      date: new Date(2020, 11, 12),
-      time: 1000 * 60 * 80,
-    },
-    {
-      date: new Date(2020, 11, 13),
-      time: 1000 * 60 * 75,
-    },
-    {
-      date: new Date(2020, 11, 14),
-      time: 1000 * 60 * 65,
-    },
-    {
-      date: new Date(2020, 11, 15),
-      time: 1000 * 60 * 60,
-    },
-  ],
+  allDayData: [],
   reminderLimit: Infinity,
 };
 
@@ -171,18 +112,20 @@ const playTimeReducer = (state = INIT_PLAY_TIME, action) => {
     case ADD_PER_DAY_PLAY_TIME:
       const {gameName, time} = action.payload;
       const {perDayData} = state;
-      const {games} = perDayData;
+      let {games} = perDayData;
       const index = games.findIndex((game) => game.gameName === gameName);
       if (index !== -1) {
-        games[index] = {
-          ...games[index],
-          time: games[index].time + time,
-        };
+        let game = games[index];
+        games.splice(index, 1);
+        games.push({
+          ...game,
+          time: game.time + time,
+        });
       } else {
         games.push({gameName, time});
       }
 
-      const date = state.perDayData.date;
+      let date = state.perDayData.date;
 
       if (date === null) {
         date = new Date();

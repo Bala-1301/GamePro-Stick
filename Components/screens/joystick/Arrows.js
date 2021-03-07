@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   arrow: {
     borderColor: '#000',
     borderWidth: 1.5,
-    elevation: 20,
+    elevation: 30,
   },
 });
 

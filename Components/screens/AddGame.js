@@ -1,12 +1,5 @@
 import React, {useEffect, useRef, useState, useContext} from 'react';
-import {
-  Text,
-  View,
-  FlatList,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, View, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import {
   SearchBar,
   Rating,
@@ -21,13 +14,15 @@ import {ActivityIndicator, Button, TextInput} from 'react-native-paper';
 import {api_call} from '../helper_functions/api';
 import {showMessage} from 'react-native-flash-message';
 import {TrendingGamesContext} from '../reusable/contexts/TrendingGamesContext';
+import {ThemeContext} from '../reusable/contexts/ThemeContext';
 
 function AddGame(props) {
-  const {trendingGames, trendingNext} = useContext(TrendingGamesContext);
+  const {trendingGames, fetchNext} = useContext(TrendingGamesContext);
+  const {darkTheme} = useContext(ThemeContext);
 
   const [gameName, setGameName] = useState('');
-  const [games, setGames] = useState(trendingGames);
-  const [next, setNext] = useState(trendingNext);
+  const [games, setGames] = useState([]);
+  const [next, setNext] = useState();
   const listRef = useRef(null);
   const [timeout, setMyTimeout] = useState(null);
 
@@ -45,7 +40,6 @@ function AddGame(props) {
     }
     if (text.length < 1) {
       setGames(trendingGames);
-      setNext(trendingNext);
     }
     setMyTimeout(
       setTimeout(() => {
@@ -85,7 +79,7 @@ function AddGame(props) {
   };
 
   const handleReachedEnd = async () => {
-    if (games.length > 1 && next != null) {
+    if (games.length > 0 && next != null) {
       const _games = await api_call({
         apiUrl: next,
         applyBaseURL: false,
@@ -94,106 +88,130 @@ function AddGame(props) {
         const _allGamesSet = games.concat(_games.results);
         setGames(_allGamesSet);
         setNext(_games.next);
+      } else {
+        console.log('Error fetching next');
       }
+    } else if (trendingGames.length > 0) {
+      fetchNext();
     }
   };
 
-  const renderItem = ({item}) => {
-    return (
-      <View style={styles.gameView}>
+  const renderItem = ({item}) => (
+    <View
+      style={[styles.gameView, {backgroundColor: darkTheme ? '#000' : '#fff'}]}>
+      <TouchableOpacity
+        onPress={() =>
+          props.navigation.navigate('Details', {
+            item: item,
+          })
+        }
+        style={{justifyContent: 'center', alignItems: 'center'}}>
+        <Image
+          defaultSource={require('../../assets/images/game-loader.png')}
+          source={
+            item.background_image !== null
+              ? {uri: item.background_image}
+              : require('../../assets/images/game-loader.png')
+          }
+          style={styles.image}
+          PlaceholderContent={
+            <LottieView
+              source={require('../../assets/animations/image-loader.json')}
+              autoPlay
+              loop
+            />
+          }
+        />
+      </TouchableOpacity>
+      <View style={styles.textView}>
         <TouchableOpacity
           onPress={() =>
             props.navigation.navigate('Details', {
               item: item,
             })
-          }
-          style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Image
-            defaultSource={require('../../assets/images/game-loader.png')}
-            source={
-              item.background_image !== null
-                ? {uri: item.background_image}
-                : require('../../assets/images/game-loader.png')
-            }
-            style={styles.image}
-            PlaceholderContent={
-              <LottieView
-                source={require('../../assets/animations/image-loader.json')}
-                autoPlay
-                loop
-              />
-            }
-          />
+          }>
+          <Text style={[styles.gameText, {color: darkTheme ? '#fff' : '#000'}]}>
+            {item.name}
+          </Text>
         </TouchableOpacity>
-        <View style={styles.textView}>
-          <TouchableOpacity
+        <Text style={{color: darkTheme ? '#fff' : '#000'}}>
+          Released : {item.released}
+        </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <Rating
+            readonly
+            startingValue={item.rating}
+            imageSize={normalize(15.5)}
+            tintColor={darkTheme ? '#000' : '#fff'}
+            ratingColor="grey"
+            ratingBackgroundColor="grey"
+            ratingTextColor="grey"
+          />
+          <Text style={{color: darkTheme ? '#fff' : '#000'}}>
+            ({item.rating}) ({item.ratings_count})
+          </Text>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+          <Button
             onPress={() =>
               props.navigation.navigate('Details', {
                 item: item,
               })
-            }>
-            <Text style={styles.gameText}>{item.name}</Text>
-          </TouchableOpacity>
-          <Text style={{color: '#fff'}}>Released : {item.released}</Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <Rating
-              readonly
-              startingValue={item.rating}
-              imageSize={normalize(15.5)}
-              tintColor="#000"
-            />
-            <Text style={{color: '#fff'}}>
-              ({item.rating}) ({item.ratings_count})
-            </Text>
-          </View>
-          <View style={{flexDirection: 'row'}}>
-            <Button
-              onPress={() =>
-                props.navigation.navigate('Details', {
-                  item: item,
-                })
-              }
-              color="red">
-              View
-            </Button>
-            <Button
-              color="red"
-              onPress={() => props.navigation.navigate('Configure', {item})}>
-              Add
-            </Button>
-          </View>
+            }
+            color="red">
+            View
+          </Button>
+          <Button
+            color="red"
+            onPress={() => props.navigation.navigate('Configure', {item})}>
+            Add
+          </Button>
         </View>
       </View>
-    );
-  };
+    </View>
+  );
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: darkTheme ? '#000' : '#fff'},
+      ]}>
       <Header
-        statusBarProps={{barStyle: 'light-content'}}
-        containerStyle={{backgroundColor: '#000'}}
+        statusBarProps={{
+          barStyle: darkTheme ? 'light-content' : 'dark-content',
+          backgroundColor: darkTheme ? '#000' : '#fff',
+        }}
+        containerStyle={{backgroundColor: darkTheme ? '#000' : '#fff'}}
         centerComponent={{
           text: 'Add Game',
-          style: {fontSize: normalize(22), color: '#fff', fontWeight: 'bold'},
+          style: {
+            fontSize: normalize(22),
+            color: darkTheme ? '#fff' : '#000',
+            fontWeight: 'bold',
+          },
         }}
       />
       <SearchBar
         platform="ios"
         value={gameName}
         onChangeText={handleSearch}
-        containerStyle={{backgroundColor: '#000'}}
-        inputContainerStyle={{backgroundColor: '#595c5a'}}
-        inputStyle={{color: '#fff'}}
+        containerStyle={{backgroundColor: darkTheme ? '#000' : '#fff'}}
+        inputContainerStyle={{
+          backgroundColor: darkTheme ? '#595c5a' : '#dbd7d7',
+        }}
+        inputStyle={{color: darkTheme ? '#fff' : '#000'}}
         placeholder="Search by Game Name"
       />
-      {games.length !== 0 ? (
+      {games.length !== 0 ||
+      (gameName.length === 0 ? trendingGames.length !== 0 : false) ? (
         <>
           <FlatList
-            data={games}
+            data={games.length > 0 ? games : trendingGames}
             ListHeaderComponent={() =>
               gameName.length < 1 && (
                 <Text
@@ -201,7 +219,7 @@ function AddGame(props) {
                     fontSize: normalize(18),
                     textAlign: 'center',
                     fontWeight: 'bold',
-                    color: '#fff',
+                    color: darkTheme ? '#fff' : '#000',
                     padding: 5,
                   }}>
                   Popular Games
@@ -240,7 +258,6 @@ function AddGame(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
   },
   image: {
     width: normalize(150),
@@ -250,7 +267,6 @@ const styles = StyleSheet.create({
   gameView: {
     flexDirection: 'row',
     padding: 5,
-    backgroundColor: '#000',
     borderRadius: 5,
     margin: 3,
   },
@@ -258,7 +274,6 @@ const styles = StyleSheet.create({
     fontSize: normalize(16.5),
     flexShrink: 1,
     fontWeight: 'bold',
-    color: '#fff',
   },
   textView: {
     flexShrink: 1,

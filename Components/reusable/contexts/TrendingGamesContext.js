@@ -5,13 +5,31 @@ export const TrendingGamesContext = React.createContext(null);
 
 export default function TrendingGames(props) {
   const [{trendingGames, trendingNext}, setTrendingGames] = useState({
-    trendingGames: null,
+    trendingGames: [],
     trendingNext: null,
   });
 
   useEffect(() => {
     fetchTrending();
   }, []);
+
+  const fetchNext = async () => {
+    if (trendingNext !== null) {
+      const _games = await api_call({
+        apiUrl: trendingNext,
+        applyBaseURL: false,
+      });
+      if (_games) {
+        const _allGamesSet = trendingGames.concat(_games.results);
+        setTrendingGames({
+          trendingGames: _allGamesSet,
+          trendingNext: _games.next,
+        });
+      } else {
+        console.log('Error fetching next');
+      }
+    }
+  };
 
   const fetchTrending = async () => {
     const _games = await api_call({
@@ -33,7 +51,8 @@ export default function TrendingGames(props) {
   };
 
   return (
-    <TrendingGamesContext.Provider value={{trendingGames, trendingNext}}>
+    <TrendingGamesContext.Provider
+      value={{trendingGames, trendingNext, fetchNext}}>
       {props.children}
     </TrendingGamesContext.Provider>
   );

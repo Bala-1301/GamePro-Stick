@@ -8,6 +8,7 @@ export const REMOVE_CURRENT_GAME = 'REMOVE_CURRENT_GAME';
 export const ADD_CLIENT_ADDRESS = 'ADD_CLIENT_ADDRESS';
 
 export const SET_GAMES = 'SET_GAMES';
+export const RESET_GAMES = 'RESET_GAMES';
 
 export const SET_CURRENT_CLIENT = 'SET_CURRENT_CLIENT';
 export const REMOVE_CURRENT_CLIENT = 'REMOVE_CURRENT_CLIENT';
@@ -53,6 +54,10 @@ export const addClientAddress = (clientInfo) => ({
 export const setGames = (games) => ({
   type: SET_GAMES,
   games,
+});
+
+export const resetGames = () => ({
+  type: RESET_GAMES,
 });
 
 export const setCurrentClient = (clientInfo) => ({

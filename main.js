@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState, useContext, useCallback} from 'react';
 import auth from '@react-native-firebase/auth';
 import Orientation from 'react-native-orientation';
 import {GoogleSignin} from '@react-native-community/google-signin';
@@ -19,8 +19,6 @@ function Main(props) {
   const [firstTime, setFirstTime] = useState(false); // change to false
   const [user, setUser] = useState(null);
 
-  const games = useSelector((state) => state.games);
-
   const dispatch = useDispatch();
 
   const {loading, hideLoading} = useContext(LoadingContext);
@@ -28,31 +26,62 @@ function Main(props) {
   const onAuthStateChanged = async (user) => {
     setUser(user);
     if (user !== null) {
-      const localGames = games;
+      // const localGames = games;
       const dbVal = await database()
         .ref(`/users/${user.uid}`)
         .once('value')
         .then((snapshot) => {
           return snapshot.val();
         });
-      if (dbVal === null) {
-        await database().ref(`/users/${user.uid}`).update({games: games});
-      } else {
-        if (localGames.length === 0 && dbVal.games !== undefined) {
-          dispatch(setGames(dbVal.games));
-        } else if (localGames.length !== 0 && dbVal.games !== undefined) {
-          let allGames = localGames.concat(dbVal.games);
+      // console.log(dbVal);
+      // console.log('Local :', localGames);
+      // console.log('DB :', dbVal.games);
+      // if (dbVal === null) {
+      //   debugger;
 
-          for (let i = 0; i < allGames.length; i++) {
-            for (let j = i + 1; j < allGames.length; j++) {
-              if (allGames[i].id === allGames[j].id) allGames.splice(j--, 1);
-            }
-          }
-          dispatch(setGames(allGames));
-          await database().ref(`/users/${user.uid}`).update({games: allGames});
-        } else if (localGames.length !== 0 && dbVal.games === undefined) {
-          await database().ref(`/users/${user.uid}`).update({games: games});
-        }
+      //   // if db Val is null local to db
+      //   await database().ref(`/users/${user.uid}`).update({games: games});
+      // }
+      if (dbVal !== null) {
+        // if (localGames.length === 0 && dbVal.games !== undefined) {
+        //   debugger;
+
+        // if local games is null / 0 and db has games add it to to local
+        dispatch(setGames(dbVal.games));
+        // } else if (localGames.length > 0 && dbVal.games !== undefined) {
+        //   // if local games are present and db also has games merge both
+        //   // let allGames = localGames.concat(dbVal.games);
+        //   // let len = allGames.length;
+        //   let allGames = localGames;
+        //   console.log('Local :', localGames);
+        //   console.log('DB :', dbVal.games);
+        //   dbVal.games.forEach((game) => {
+        //     let contains = false;
+        //     for (let i = 0; i < localGames.length; i++) {
+        //       if (localGames[i].id === game.id) {
+        //         contains = true;
+        //         break;
+        //       }
+        //     }
+        //     debugger;
+        //     if (!contains) {
+        //       allGames.push(game);
+        //     }
+        //   });
+
+        //   // for (let i = 0; i < len; i++) {
+        //   //   for (let j = i + 1; j < len; j++) {
+        //   //     if (allGames[i].id === allGames[j].id) allGames.splice(j--, 1);
+        //   //   }
+        //   // }
+        //   dispatch(setGames(allGames));
+        //   await database().ref(`/users/${user.uid}`).update({games: allGames});
+        // } else if (localGames.length !== 0 && dbVal.games === undefined) {
+        //   debugger;
+
+        //   // if local games is not null and dbVal is null update db
+        //   await database().ref(`/users/${user.uid}`).update({games: games});
+        // }
       }
     }
     hideLoading();
@@ -79,7 +108,7 @@ function Main(props) {
     };
   }, []);
 
-  const toggleFirstTime = () => {
+  const toggleFirstTime = async () => {
     setFirstTime(!firstTime);
   };
 
