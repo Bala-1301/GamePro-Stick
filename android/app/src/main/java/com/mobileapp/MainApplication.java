@@ -7,7 +7,6 @@ import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.wheelpicker.WheelPickerPackage;
 import com.horcrux.svg.SvgPackage;
-import org.reactnative.camera.RNCameraPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -26,12 +25,13 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Arrays;
+import androidx.multidex.MultiDexApplication;
  
 import org.unimodules.adapters.react.ModuleRegistryAdapter;
 import org.unimodules.adapters.react.ReactModuleRegistryProvider;
 import org.unimodules.core.interfaces.SingletonModule;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(new BasePackageList().getPackageList(), null);
 

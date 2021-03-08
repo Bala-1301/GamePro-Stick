@@ -129,13 +129,16 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    dexOptions {
+       javaMaxHeapSize "3g"
+    }
+
     defaultConfig {
         applicationId "com.mobileapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
     }
     splits {
@@ -191,12 +194,12 @@ android {
 }
 
 dependencies {
+    
     implementation project(':react-native-sound')
     implementation project(':react-native-vector-icons')
-    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation platform('com.google.firebase:firebase-bom:26.6.0')
     implementation project(':react-native-wheel-picker-android')
-
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.multidex:multidex:2.0.1'  // <-- ADD THIS DEPENDENCY
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
